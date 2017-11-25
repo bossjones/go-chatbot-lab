@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "*.exe": "explorerExcludedFiles",
+    "*.dll": "explorerExcludedFiles",
+    "*.so": "explorerExcludedFiles",
+    "*.dylib": "explorerExcludedFiles",
+    "*.test": "explorerExcludedFiles",
+    "*.out": "explorerExcludedFiles",
+    ".glide/": "explorerExcludedFiles",
+    "bin": "explorerExcludedFiles",
+    "vendor": "explorerExcludedFiles"
+  }
+}
