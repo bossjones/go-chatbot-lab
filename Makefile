@@ -1,10 +1,15 @@
 .PHONY: build build-alpine clean test help default
 
+# SOURCES:=$(shell find . \( -name vendor \) -prune -o  -name '*.go')
+# RESOURCES:=$(shell find ./resources -type f  | grep -v resources/bindata.go )
+# FD_VERSION  = $(shell awk -F "\"" '/var Version/ { print $$2 }' shared/version/version.go)
+
 BIN_NAME=go-chatbot-lab
 
-VERSION := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
-GIT_COMMIT=$(shell git rev-parse HEAD)
-GIT_DIRTY=$(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
+VERSION    := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
+GIT_SHA  = $(shell git rev-parse HEAD)
+GIT_DIRTY   = $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
+GIT_BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 IMAGE_NAME := "bossjones/go-chatbot-lab"
 
 default: test
@@ -26,7 +31,7 @@ help:
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
-	go build -ldflags "-X main.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
+	go build -ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
 
 get-deps:
 	glide install
@@ -34,21 +39,21 @@ get-deps:
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
-	go build -ldflags '-w -linkmode external -extldflags "-static" -X main.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X main.VersionPrerelease=VersionPrerelease=RC' -o bin/${BIN_NAME}
+	go build -ldflags '-w -linkmode external -extldflags "-static" -X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=VersionPrerelease=RC' -o bin/${BIN_NAME}
 
 package:
-	@echo "building image ${BIN_NAME} ${VERSION} $(GIT_COMMIT)"
-	docker build --build-arg VERSION=${VERSION} --build-arg GIT_COMMIT=$(GIT_COMMIT) -t $(IMAGE_NAME):local .
+	@echo "building image ${BIN_NAME} ${VERSION} $(GIT_SHA)"
+	docker build --build-arg VERSION=${VERSION} --build-arg GIT_SHA=$(GIT_SHA) -t $(IMAGE_NAME):local .
 
-tag: 
-	@echo "Tagging: latest ${VERSION} $(GIT_COMMIT)"
-	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):$(GIT_COMMIT)
+tag:
+	@echo "Tagging: latest ${VERSION} $(GIT_SHA)"
+	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):$(GIT_SHA)
 	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):${VERSION}
 	docker tag $(IMAGE_NAME):local $(IMAGE_NAME):latest
 
 push: tag
-	@echo "Pushing docker image to registry: latest ${VERSION} $(GIT_COMMIT)"
-	docker push $(IMAGE_NAME):$(GIT_COMMIT)
+	@echo "Pushing docker image to registry: latest ${VERSION} $(GIT_SHA)"
+	docker push $(IMAGE_NAME):$(GIT_SHA)
 	docker push $(IMAGE_NAME):${VERSION}
 	docker push $(IMAGE_NAME):latest
 
