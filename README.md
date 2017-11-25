@@ -16,3 +16,9 @@ $ ./bin/go-chatbot-lab
 ### Testing
 
 ``make test``
+
+### Thanks
+
+Cookiecutter!
+
+[cookiecutter-golang](https://github.com/lacion/cookiecutter-golang/tree/master)
