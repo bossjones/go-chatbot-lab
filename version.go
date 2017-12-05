@@ -10,3 +10,7 @@ const Version = "0.1.0"
 // then it means that it is a final release. Otherwise, this is a pre-release
 // such as "dev" (in development)
 var VersionPrerelease = ""
+
+func FullVersion() string {
+	return Version + VersionPrerelease + " (" + GitCommit + ")"
+}

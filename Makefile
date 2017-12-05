@@ -36,6 +36,18 @@ build:
 get-deps:
 	glide install
 
+install-tools:
+# @which golint || go get -u github.com/golang/lint/golint
+# @which cover || go get golang.org/x/tools/cmd/cover
+# @test -d $$GOPATH/github.com/go-ini/ini || go get github.com/go-ini/ini
+# @test -d $$GOPATH/github.com/jmespath/go-jmespath ||  go get github.com/jmespath/go-jmespath
+# @which ginkgo || go get github.com/onsi/ginkgo/ginkgo
+# @which gomega || go get github.com/onsi/gomega
+# @which gomock || go get github.com/golang/mock/gomock
+# @which mockgen || go get github.com/golang/mock/mockgen
+	@which glide || go get github.com/Masterminds/glide
+# @which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
+
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
