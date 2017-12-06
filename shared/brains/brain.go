@@ -42,20 +42,28 @@ import (
 
 // Data is an object containing properties data.user = {} and data.private = {}
 type Data struct {
-	user    map[string]string
-	private map[string]string
+	// User is a struct field that is of type map {"":""}
+	User          map[string]string
+
+	// Private is a struct field that is of type map {"":""}
+	Private       map[string]string
 }
 
-// // DataValue entity represents the unit returned by queries to a Key Value store.
-// type DataValue struct {
-// 	Key         string
-// 	Value       string
-// 	HasChildren bool
-// }
+// NOTE: https://stackoverflow.com/questions/27553399/golang-how-to-initialize-a-map-field-within-a-struct
+// NewData returns a reference to an instance of Data
+func NewData() (*Data, error) {
 
-// func (dv *DataValue) String() string {
-// 	return dv.Key + " : " + dv.Value + " : " + strconv.FormatBool(dv.HasChildren)
-// }
+	var data Data
+
+	data.User = make(map[string]string)
+	data.Private = make(map[string]string)
+
+	return &data, nil
+}
+
+func (d *Data) String() string {
+	return d.User + " : " + d.Private
+}
 
 // Brain represents a somewhat persistent storage for the robot. Extend this. ( Returns a new Brain with no external storage. )
 type Brain struct {
@@ -90,7 +98,7 @@ func newBrain(robot robots.Robot) (*Brain, error) {
 }
 
 // Value Receiver Method
-func (b *brain) set(newvale string){
+func (b *brain) set(newvalue string){
 	// b.
 
 	// Grades := make(map[string]float32)
