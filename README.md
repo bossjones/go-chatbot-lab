@@ -22,3 +22,7 @@ $ ./bin/go-chatbot-lab
 Cookiecutter!
 
 [cookiecutter-golang](https://github.com/lacion/cookiecutter-golang/tree/master)
+
+### Example Projects Using Same Cookiecutter
+
+[iothub](https://github.com/lacion/iothub)

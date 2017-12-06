@@ -29,10 +29,13 @@ type Provider interface {
 
 var defaultConfig *viper.Viper
 
+
+// Config returns a defaultConfig object
 func Config() Provider {
 	return defaultConfig
 }
 
+// LoadConfigProvider returns a pointer to a viper.Viper object containing config data
 func LoadConfigProvider(appName string) Provider {
 	return readViperConfig(appName)
 }
@@ -47,10 +50,26 @@ func readViperConfig(appName string) *viper.Viper {
 	v.AutomaticEnv()
 
 	// global defaults
-	
+
 	v.SetDefault("json_logs", false)
 	v.SetDefault("loglevel", "debug")
-	
+
+	// global defaults
+	// v.SetDefault("json_logs", false)
+	// v.SetDefault("loglevel", "debug")
+	// v.SetDefault("mode", "debug") // debug, release, test
+	// v.SetDefault("listen_address", ":5000")
+	// v.SetDefault("secret", "887yff9898yfhuiew3489fy3hewfuig239f8ghew32yfh")
+
+	// // HTTP Server Config
+	// v.SetDefault("secure", false)
+	// v.SetDefault("read_timeout", "0m10s")
+	// v.SetDefault("write_timeout", "0m10s")
+	// v.SetDefault("max_header_bytes", 1048576)
+
+	// // TLS Config
+	// v.SetDefault("cert_file", "ssl/server.crt")
+	// v.SetDefault("key_file", "ssl/server.key")
 
 	return v
 }

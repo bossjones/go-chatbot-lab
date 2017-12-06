@@ -11,6 +11,7 @@ GIT_SHA  = $(shell git rev-parse HEAD)
 GIT_DIRTY   = $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 GIT_BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 IMAGE_NAME := "bossjones/go-chatbot-lab"
+SOURCES    := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
 
 default: test
 
@@ -33,20 +34,27 @@ build:
 	@echo "GOPATH=${GOPATH}"
 	go build -ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
 
+install-deps: install-tools get-deps
+
 get-deps:
 	glide install
 
 install-tools:
-# @which golint || go get -u github.com/golang/lint/golint
-# @which cover || go get golang.org/x/tools/cmd/cover
-# @test -d $$GOPATH/github.com/go-ini/ini || go get github.com/go-ini/ini
-# @test -d $$GOPATH/github.com/jmespath/go-jmespath ||  go get github.com/jmespath/go-jmespath
-# @which ginkgo || go get github.com/onsi/ginkgo/ginkgo
-# @which gomega || go get github.com/onsi/gomega
-# @which gomock || go get github.com/golang/mock/gomock
-# @which mockgen || go get github.com/golang/mock/mockgen
+	@which golint || go get -u github.com/golang/lint/golint
+	@which cover || go get golang.org/x/tools/cmd/cover
+	@test -d $$GOPATH/github.com/go-ini/ini || go get github.com/go-ini/ini
+	@test -d $$GOPATH/github.com/jmespath/go-jmespath ||  go get github.com/jmespath/go-jmespath
+	@which ginkgo || go get github.com/onsi/ginkgo/ginkgo
+	@which gomega || go get github.com/onsi/gomega
+	@which gomock || go get github.com/golang/mock/gomock
+	@which mockgen || go get github.com/golang/mock/mockgen
 	@which glide || go get github.com/Masterminds/glide
-# @which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
+	# @which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
+
+force-vendor:
+	rm -fv vendor/github.com/bossjones/go-chatbot-lab
+	mkdir -p vendor/github.com/bossjones/go-chatbot-lab
+	cp -af . vendor/github.com/bossjones/go-chatbot-lab
 
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
@@ -72,6 +80,36 @@ push: tag
 clean:
 	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
 
+# INFO: glide nv = List all non-vendor paths in a directory.
 test:
 	go test $(glide nv)
 
+#REQUIRED-CI
+# FIXME: Skip this for now cause of non_docker_compile (12/6/2017)
+# non_docker_compile: install-deps build
+
+non_docker_lint: install-deps
+	go tool vet -all config shared log
+	@DIRS="config/... shared/... log/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared log" && \
+	GOFMT=$$(gofmt -l *.go config shared log) && \
+	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
+	for codeDir in $$DIRS; do \
+		echo "golint $$codeDir" && \
+		LINT="$$(golint $$codeDir)" && \
+		if [ ! -z "$$LINT" ]; then echo "$$LINT" && FAILED="true"; fi; \
+	done && \
+	if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
+
+
+#REQUIRED-CI
+# FIXME: Skip this for now cause of non_docker_compile (12/6/2017)
+# non_docker_test: install-deps non_docker_lint non_docker_compile
+non_docker_test: install-deps non_docker_lint
+	@echo "******* Checking if test code compiles... *************" && \
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -c % || exit 255'
+	@echo "******* Running tests... ******************************"
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
+
+#REQUIRED-CI
+non_docker_ci: non_docker_compile non_docker_test

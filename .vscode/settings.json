@@ -2,7 +2,7 @@
   "todohighlight.isEnable": true,
   "todohighlight.isCaseSensitive": true,
   "editor.formatOnSave": false,
-  "go.formatOnSave": false,
+  "go.formatOnSave": true,
   "todohighlight.keywords": [
     {
       "text": "TODO:",

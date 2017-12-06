@@ -2,3 +2,6 @@ package: github.com/bossjones/go-chatbot-lab
 import:
 - package: github.com/spf13/viper
 - package: github.com/Sirupsen/logrus
+testImport:
+- package: github.com/onsi/ginkgo
+- package: github.com/onsi/gomega
