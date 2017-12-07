@@ -1,21 +1,15 @@
-.PHONY: build build-alpine clean test help default
+.PHONY: build build-alpine clean test help default list ci push
 
-# SOURCES:=$(shell find . \( -name vendor \) -prune -o  -name '*.go')
-# RESOURCES:=$(shell find ./resources -type f  | grep -v resources/bindata.go )
-# FD_VERSION  = $(shell awk -F "\"" '/var Version/ { print $$2 }' shared/version/version.go)
-
-username := bossjones
-container_name := go-chatbot-lab
-
-BIN_NAME=go-chatbot-lab
-
-SOURCES      := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
-VERSION      := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
-GIT_SHA      := $(shell git rev-parse HEAD)
-GIT_DIRTY    := $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
-GIT_BRANCH   := $(shell git rev-parse --abbrev-ref HEAD)
-IMAGE_NAME   := $(username)/$(container_name)
-SOURCES      := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
+username             := bossjones
+container_name       := go-chatbot-lab
+BIN_NAME             := go-chatbot-lab
+SOURCES              := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
+VERSION              := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
+GIT_SHA              := $(shell git rev-parse HEAD)
+GIT_DIRTY            := $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
+GIT_BRANCH           := $(shell git rev-parse --abbrev-ref HEAD)
+IMAGE_NAME           := $(username)/$(container_name)
+SOURCES              := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
 # LOCAL_REPOSITORY = $(HOST_IP):5000
 
 define ASCICHATBOT
@@ -47,9 +41,6 @@ ifeq ($(TAG),@branch)
 	override TAG = $(shell git symbolic-ref --short HEAD)
 	@echo $(value TAG)
 endif
-
-list:
-	@$(MAKE) -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$$)/ {split($$1,A,/ /);for(i in A)print A[i]}' | sort
 
 default: help
 
@@ -207,7 +198,7 @@ dev-clean:
 	fi
 
 #REQUIRED-CI
-resources compile lint test ci : dev-container
+compile lint test ci : dev-container
 	build/make/run_target_in_container.sh non_docker_$@
 
 # *****************************************************
@@ -236,4 +227,6 @@ resources compile lint test ci : dev-container
 # *****************************************************
 
 
-include build/make/*.mk
+# include build/make/*.mk
+
+include build/make/help.mk

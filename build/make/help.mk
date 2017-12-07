@@ -45,7 +45,7 @@ help:
 	@printf "$$GREEN make go-up$$NC                        docker-compose up -d for only go-chatbot-lab container\n"
 	@printf "$$GREEN make go-down$$NC                      docker-compose stop for only go-chatbot-lab container\n"
 	@printf "$$GREEN make dev$$NC                          make go-down && make go-up for convenience\n"
-	@printf "$$GREEN make quicktest$$NC                    run full 'go test' outside of docker for quick validation, much faster than '
+	@printf "$$GREEN make quicktest$$NC                    run full 'go test' outside of docker for quick validation, much faster than"
 	@printf "\n"
 	@printf "=======================================\n"
 	@printf "\"make container\" target image tagging:\n"
