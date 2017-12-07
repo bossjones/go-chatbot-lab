@@ -4,8 +4,12 @@ FROM golang:1.9.2-stretch AS build-stage
 LABEL app="build-go-chatbot-lab"
 LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
 
-ENV GOROOT=/usr/lib/go \
-    GOPATH=/go \
+# ENV GOROOT=/usr/lib/go \
+#     GOPATH=/go \
+#     GOBIN=/go/bin \
+#     PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
+
+ENV GOPATH=/go \
     GOBIN=/go/bin \
     PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
 
@@ -16,10 +20,10 @@ LABEL GIT_COMMIT=$GIT_COMMIT
 LABEL VERSION=$VERSION
 
 # Because of https://github.com/docker/docker/issues/14914
-ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+# ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
-ADD . /gopath/src/github.com/bossjones/go-chatbot-lab
-WORKDIR /gopath/src/github.com/bossjones/go-chatbot-lab
+ADD . /go/src/github.com/bossjones/go-chatbot-lab
+WORKDIR /go/src/github.com/bossjones/go-chatbot-lab
 
 # RUN apt-get update && apt-get install apk add --no-cache \
 #     bash \
@@ -36,7 +40,7 @@ WORKDIR /gopath/src/github.com/bossjones/go-chatbot-lab
 # - For automated building with private repos only accessible by ssh
 #
 
-RUN make build-alpine
+RUN make build
 
 RUN mkdir -p /root/.ssh && chmod og-rwx /root/.ssh && \
     echo "Host * " > /root/.ssh/config && \

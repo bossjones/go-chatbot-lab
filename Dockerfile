@@ -20,7 +20,7 @@ ENV GOPATH=/go \
 ADD . /go/src/github.com/bossjones/go-chatbot-lab
 WORKDIR /go/src/github.com/bossjones/go-chatbot-lab
 
-RUN make build-alpine
+RUN make build
 
 # Final Stage
 FROM behance/docker-base:2.0.1
