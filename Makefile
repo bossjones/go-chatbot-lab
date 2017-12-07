@@ -4,35 +4,70 @@
 # RESOURCES:=$(shell find ./resources -type f  | grep -v resources/bindata.go )
 # FD_VERSION  = $(shell awk -F "\"" '/var Version/ { print $$2 }' shared/version/version.go)
 
+username := bossjones
+container_name := go-chatbot-lab
+
 BIN_NAME=go-chatbot-lab
 
-VERSION    := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
-GIT_SHA  = $(shell git rev-parse HEAD)
-GIT_DIRTY   = $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
-GIT_BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
-IMAGE_NAME := "bossjones/go-chatbot-lab"
-SOURCES    := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
+SOURCES      := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
+VERSION      := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
+GIT_SHA      := $(shell git rev-parse HEAD)
+GIT_DIRTY    := $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
+GIT_BRANCH   := $(shell git rev-parse --abbrev-ref HEAD)
+IMAGE_NAME   := $(username)/$(container_name)
+SOURCES      := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
+# LOCAL_REPOSITORY = $(HOST_IP):5000
 
-default: test
+define ASCICHATBOT
+============GO CHATBOT LAB============
+endef
 
-help:
-	@echo 'Management commands for go-chatbot-lab:'
-	@echo
-	@echo 'Usage:'
-	@echo '    make build           Compile the project.'
-	@echo '    make get-deps        runs glide install, mostly used for ci.'
-	@echo '    make build-alpine    Compile optimized for alpine linux.'
-	@echo '    make package         Build final docker image with just the go binary inside'
-	@echo '    make tag             Tag image created by package with latest, git commit and version'
-	@echo '    make test            Run tests on a compiled project.'
-	@echo '    make push            Push tagged images to registry'
-	@echo '    make clean           Clean the directory tree.'
-	@echo
+export ASCICHATBOT
+
+# http://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+RED=\033[0;31m
+GREEN=\033[0;32m
+ORNG=\033[38;5;214m
+BLUE=\033[38;5;81m
+PURP=\033[38;5;129m
+GRAY=\033[38;5;246m
+NC=\033[0m
+
+export RED
+export GREEN
+export NC
+export ORNG
+export BLUE
+export PURP
+export GRAY
+
+TAG ?= $(VERSION)
+ifeq ($(TAG),@branch)
+	override TAG = $(shell git symbolic-ref --short HEAD)
+	@echo $(value TAG)
+endif
+
+list:
+	@$(MAKE) -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$$)/ {split($$1,A,/ /);for(i in A)print A[i]}' | sort
+
+default: help
 
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
 	go build -ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
+
+#REQUIRED-CI
+bin/go-chatbot-lab: $(SOURCES)
+	@if [ "$$(uname)" == "Linux" ]; then \
+		CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -i -v \
+			-ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" \
+			-o bin/go-chatbot-lab \
+			./ ;  \
+	else \
+		echo "Skipping Linux CGO build, because \"uname\" returned \"$$(uname)\"" ; \
+	fi
 
 install-deps: install-tools get-deps
 
@@ -49,12 +84,7 @@ install-tools:
 	@which gomock || go get github.com/golang/mock/gomock
 	@which mockgen || go get github.com/golang/mock/mockgen
 	@which glide || go get github.com/Masterminds/glide
-	# @which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
-
-force-vendor:
-	rm -fv vendor/github.com/bossjones/go-chatbot-lab
-	mkdir -p vendor/github.com/bossjones/go-chatbot-lab
-	cp -af . vendor/github.com/bossjones/go-chatbot-lab
+	@which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
 
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
@@ -81,12 +111,11 @@ clean:
 	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
 
 # INFO: glide nv = List all non-vendor paths in a directory.
-test:
-	go test $(glide nv)
+# test:
+# 	go test $(glide nv)
 
 #REQUIRED-CI
-# FIXME: Skip this for now cause of non_docker_compile (12/6/2017)
-# non_docker_compile: install-deps build
+non_docker_compile:  install-deps bin/go-chatbot-lab
 
 non_docker_lint: install-deps
 	go tool vet -all config shared log
@@ -101,7 +130,6 @@ non_docker_lint: install-deps
 	done && \
 	if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
 
-
 #REQUIRED-CI
 # FIXME: Skip this for now cause of non_docker_compile (12/6/2017)
 # non_docker_test: install-deps non_docker_lint non_docker_compile
@@ -113,6 +141,74 @@ non_docker_test: install-deps non_docker_lint
 
 #REQUIRED-CI
 non_docker_ci: non_docker_compile non_docker_test
+
+clean-vendor:
+	test -d vendor && rm -rf vendor || echo "vendor doesnt exist"
+
+get-version : version
+version: ## Parse version from shared/version/version.go
+version:
+	@echo $(VERSION)
+
+#compile doesn't rebuild unless something changed
+#REQUIRED-CI
+container: compile
+	set -x ;\
+	docker build \
+		--build-arg VERSION=${VERSION} \
+		--build-arg GIT_SHA=$(GIT_SHA) \
+		--tag $(IMAGE_NAME):$(GIT_SHA) . ; \
+	docker tag $(IMAGE_NAME):$(GIT_SHA) $(IMAGE_NAME):$(TAG)
+
+dev-container:    ## makes container flotilla:1.7.3-dev and installs go deps
+dev-container:
+	@if [ ! -e /.dockerenv ]; then \
+		echo ; \
+		echo ; \
+		echo "------------------------------------------------" ; \
+		echo "$@: Building dev container image..." ; \
+		echo "------------------------------------------------" ; \
+		echo ; \
+		docker images | grep '$(IMAGE_NAME)' | awk '{print $$2}' | grep -q -E '^dev$$' ; \
+		if [ $$? -ne 0 ]; then  \
+			docker build -f Dockerfile-dev -t $(IMAGE_NAME):dev . ; \
+		fi ; \
+	else \
+		echo ; \
+		echo "------------------------------------------------" ; \
+		echo "$@: Running in Docker so skipping..." ; \
+		echo "------------------------------------------------" ; \
+		echo ; \
+		env ; \
+		echo ; \
+	fi
+
+dev-clean:  ## Remove the flight-director container image
+dev-clean:
+	@if [ ! -e /.dockerenv ]; then \
+		if $$(docker ps | grep -q "$(IMAGE_NAME):dev"); then \
+			echo "You have a running dev container.  Stop it first before using dev-clean" ;\
+			exit 10; \
+		fi ; \
+		docker images | grep '$(IMAGE_NAME)' | awk '{print $$2}' | grep -q -E '^dev$$' ; \
+		if [ $$? -eq 0 ]; then  \
+			docker rmi $(IMAGE_NAME):dev  ; \
+		else \
+			echo "No dev image" ;\
+		fi ; \
+	else \
+		echo ; \
+		echo "------------------------------------------------" ; \
+		echo "$@: Running in Docker so skipping..." ; \
+		echo "------------------------------------------------" ; \
+		echo ; \
+		env ; \
+		echo ; \
+	fi
+
+#REQUIRED-CI
+resources compile lint test ci : dev-container
+	build/make/run_target_in_container.sh non_docker_$@
 
 # *****************************************************
 # from capcom
@@ -138,3 +234,6 @@ non_docker_ci: non_docker_compile non_docker_test
 # 	go-bindata -pkg resources -o resources/bindata.go resources/...
 # 	go build -o ./capcom
 # *****************************************************
+
+
+include build/make/*.mk
