@@ -24,11 +24,9 @@ func TestData(t *testing.T) {
 var _ = Describe("Data", func() {
 	var (
 		data Data
-		// d := Data{}
 	)
 
 	BeforeEach(func() {
-		// log.SetLevel(log.PanicLevel)
 		data = *NewData()
 	})
 	Describe("NewData", func() {
