@@ -5,14 +5,14 @@ LABEL app="build-go-chatbot-lab"
 LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
 
 ENV GOROOT=/usr/lib/go \
-    GOPATH=/gopath \
-    GOBIN=/gopath/bin \
-    PROJPATH=/gopath/src/github.com/bossjones/go-chatbot-lab
+    GOPATH=/go \
+    GOBIN=/go/bin \
+    PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
 
 # Because of https://github.com/docker/docker/issues/14914
-ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+ENV PATH=$PATH:$GOROOT/bin:$go/bin
 
-ADD . /gopath/src/github.com/bossjones/go-chatbot-lab
-WORKDIR /gopath/src/github.com/bossjones/go-chatbot-lab
+ADD . /go/src/github.com/bossjones/go-chatbot-lab
+WORKDIR /go/src/github.com/bossjones/go-chatbot-lab
 
 RUN make build-alpine

@@ -5,9 +5,9 @@ LABEL app="build-go-chatbot-lab"
 LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
 
 ENV GOROOT=/usr/lib/go \
-    GOPATH=/gopath \
-    GOBIN=/gopath/bin \
-    PROJPATH=/gopath/src/github.com/bossjones/go-chatbot-lab
+    GOPATH=/go \
+    GOBIN=/go/bin \
+    PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
 
 ARG GIT_COMMIT
 ARG VERSION

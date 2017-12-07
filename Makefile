@@ -226,7 +226,4 @@ compile lint test ci : dev-container
 # 	go build -o ./capcom
 # *****************************************************
 
-
-# include build/make/*.mk
-
-include build/make/help.mk
+include build/make/*.mk

@@ -8,4 +8,4 @@ services:
     environment:
       SERVER_LOG_MINIMAL: 1
     volumes:
-    - ./:/gopath/src/github.com/bossjones/go-chatbot-lab:rw
+    - ./:/go/src/github.com/bossjones/go-chatbot-lab:rw

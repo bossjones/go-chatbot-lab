@@ -20,8 +20,8 @@ if [ ! -e /.dockerenv ]; then
     docker run -i --rm $SSH1 $SSH2 $AWS_ENV_VAR_OPTS \
         --name=go_chatbot_lab_make_docker_$TARGET \
         -e sha=$SHA \
-        -v $PWD:gopath/src/github.com/bossjones/go-chatbot-lab \
-        -w gopath/src/github.com/bossjones/go-chatbot-lab \
+        -v $PWD:/go/src/github.com/bossjones/go-chatbot-lab \
+        -w /go/src/github.com/bossjones/go-chatbot-lab \
         bossjones/go-chatbot-lab:dev \
         make $TARGET
 else
