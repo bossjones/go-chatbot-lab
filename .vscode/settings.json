@@ -82,6 +82,8 @@
     "*.out": "explorerExcludedFiles",
     ".glide/": "explorerExcludedFiles",
     "bin": "explorerExcludedFiles",
-    "vendor": "explorerExcludedFiles"
+    "vendor": "explorerExcludedFiles",
+    ".vscode/tags": "explorerExcludedFiles",
+    ".vscode/launch.json": "explorerExcludedFiles"
   }
 }

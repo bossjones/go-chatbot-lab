@@ -23,31 +23,19 @@ func TestData(t *testing.T) {
 
 var _ = Describe("Data", func() {
 	var (
-		d Data
+		data Data
 		// d := Data{}
 	)
 
 	BeforeEach(func() {
 		// log.SetLevel(log.PanicLevel)
-		d := NewData()
+		data = *NewData()
 	})
-	// Describe("Data Object", func() {
-	// 	It("User property is a empty dictonary of strings", func() {
-	// 		Expect(d).To(BeEmpty())
-	// 	})
-	// })
-	Describe("Data String representation", func() {
-		It("User string representation is BLAH", func() {
-			Expect(dat.User).To(BeEmpty())
+	Describe("NewData", func() {
+		It("Is initialized properly", func() {
+			Expect(data.User).To(BeAssignableToTypeOf(make(map[string]string)))
+			Expect(data.Private).To(BeAssignableToTypeOf(make(map[string]string)))
 		})
 	})
 
 })
-
-// type Data struct {
-// 	// User is a struct field that is of type map {"":""}
-// 	User          map[string]string
-
-// 	// Private is a struct field that is of type map {"":""}
-// 	Private       map[string]string
-// }

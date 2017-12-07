@@ -113,3 +113,28 @@ non_docker_test: install-deps non_docker_lint
 
 #REQUIRED-CI
 non_docker_ci: non_docker_compile non_docker_test
+
+# *****************************************************
+# from capcom
+# install-deps:
+# 	go get -u github.com/Masterminds/glide
+# 	go get -u github.com/jteeuwen/go-bindata/...
+# 	rm -rf vendor
+# 	glide install
+
+# install-test-deps:
+# 	go get -u github.com/golang/lint/golint
+# 	go get golang.org/x/tools/cmd/cover
+# 	go get github.com/onsi/ginkgo/ginkgo
+# 	go get github.com/onsi/gomega
+
+# test:
+# 	make install-deps install-test-deps compile
+# 	go vet $$(go list ./... | grep -v /vendor/)
+# 	golint $$(go list ./... | grep -v /vendor/)
+# 	go test -v --timeout 5s $$(go list ./... | grep -v /vendor/)
+
+# compile:
+# 	go-bindata -pkg resources -o resources/bindata.go resources/...
+# 	go build -o ./capcom
+# *****************************************************

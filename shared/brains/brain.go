@@ -1,9 +1,5 @@
 package brains
 
-import (
-	"github.com/bossjones/go-chatbot-lab/shared/robots"
-)
-
 // ***************************************************************************
 // var (
 // 	ErrKeyNotFound     = errors.New("Key not found")
@@ -50,12 +46,12 @@ type Data struct {
 // NewData returns a reference to an instance of Data
 func NewData() *Data {
 
-	// var data Data
-	return &Data{
+	data := Data{
 		User:    make(map[string]string),
 		Private: make(map[string]string),
 	}
 
+	return &data
 }
 
 // INFO: https://stackoverflow.com/questions/27455170/error-struct-type-is-not-an-expression
@@ -94,19 +90,20 @@ type Brain struct {
 }
 
 // instantiate a new GithubAuthorizer
-func newBrain(robot robots.Robot) (*Brain, error) {
+// robot robots.Robot,
+func newBrain(data *Data) *Brain {
 	// TODO: We need to pass in some sort of struct that represents commandline data
 	// githubAPIURL, err := parseGithubAPI(config.GithubAPI)
 	// if err != nil {
 	// 	return nil, err
 	// }
 
-	brain := &Brain{
-		data:     Data,
+	brain := Brain{
+		data:     &Data{},
 		autoSave: false,
 	}
 
-	return brain, nil
+	return &brain
 }
 
 // FIXME: Disabled for now 12/6/2017
