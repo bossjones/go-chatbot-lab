@@ -77,11 +77,6 @@ func NewData() *Data {
 type Brain struct {
 	data *Data
 
-	// EXAMPLE:
-	// data =
-	//   users:    { }
-	//   _private: { }
-
 	autoSave bool
 
 	// EXAMPLE:

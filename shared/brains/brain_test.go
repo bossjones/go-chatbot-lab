@@ -6,8 +6,6 @@ package brains_test
 
 // Assume we have compiled a package containing the package clause package math, which exports function Sin, and installed the compiled package in the file identified by "lib/math". This table illustrates how Sin may be accessed in files that import the package after the various types of import declaration.
 
-// "testing"
-
 import (
 	"testing"
 
