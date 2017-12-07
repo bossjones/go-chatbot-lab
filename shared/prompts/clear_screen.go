@@ -1,4 +1,3 @@
-
 package prompts
 
 // Borrowed from https://github.com/dixonwille/wmenu/blob/master/clearScreen.go
@@ -14,19 +13,19 @@ var clear map[string]func()
 func init() {
 	clear = make(map[string]func())
 	clear["linux"] = func() {
-		cmd := exec.Command("clear")
+		cmd := exec.Command("/usr/bin/clear") // nolint: errcheck
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		cmd.Run() // nolint: errcheck
 	}
 	clear["darwin"] = func() {
-		cmd := exec.Command("clear")
+		cmd := exec.Command("/usr/bin/clear") // nolint: errcheck
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		cmd.Run() // nolint: errcheck
 	}
 	clear["windows"] = func() {
-		cmd := exec.Command("cmd", "/c", "cls")
+		cmd := exec.Command("cmd", "/c", "cls") // nolint: errcheck
 		cmd.Stdout = os.Stdout
-		cmd.Run()
+		cmd.Run() // nolint: errcheck
 	}
 }
 

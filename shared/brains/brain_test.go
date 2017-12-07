@@ -6,22 +6,30 @@ package brains_test
 
 // Assume we have compiled a package containing the package clause package math, which exports function Sin, and installed the compiled package in the file identified by "lib/math". This table illustrates how Sin may be accessed in files that import the package after the various types of import declaration.
 
+// "testing"
+
 import (
 	"testing"
+
 	. "github.com/bossjones/go-chatbot-lab/shared/brains"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
+func TestData(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Data Suite")
+}
 
 var _ = Describe("Data", func() {
 	var (
 		d Data
+		// d := Data{}
 	)
 
 	BeforeEach(func() {
 		// log.SetLevel(log.PanicLevel)
-		d = NewData()
+		d := NewData()
 	})
 	// Describe("Data Object", func() {
 	// 	It("User property is a empty dictonary of strings", func() {
@@ -30,7 +38,7 @@ var _ = Describe("Data", func() {
 	// })
 	Describe("Data String representation", func() {
 		It("User string representation is BLAH", func() {
-			Expect(d.User).To(BeEmpty())
+			Expect(dat.User).To(BeEmpty())
 		})
 	})
 

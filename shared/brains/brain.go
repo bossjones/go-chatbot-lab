@@ -2,10 +2,6 @@ package brains
 
 import (
 	"github.com/bossjones/go-chatbot-lab/shared/robots"
-	"errors"
-	"strconv"
-	"strings"
-	"sync"
 )
 
 // ***************************************************************************
@@ -43,27 +39,43 @@ import (
 // Data is an object containing properties data.user = {} and data.private = {}
 type Data struct {
 	// User is a struct field that is of type map {"":""}
-	User          map[string]string
+	User map[string]string
 
 	// Private is a struct field that is of type map {"":""}
-	Private       map[string]string
+	Private map[string]string
 }
 
 // NOTE: https://stackoverflow.com/questions/27553399/golang-how-to-initialize-a-map-field-within-a-struct
+
 // NewData returns a reference to an instance of Data
-func NewData() (*Data, error) {
+func NewData() *Data {
 
-	var data Data
+	// var data Data
+	return &Data{
+		User:    make(map[string]string),
+		Private: make(map[string]string),
+	}
 
-	data.User = make(map[string]string)
-	data.Private = make(map[string]string)
-
-	return &data, nil
 }
 
-func (d *Data) String() string {
-	return d.User + " : " + d.Private
-}
+// INFO: https://stackoverflow.com/questions/27455170/error-struct-type-is-not-an-expression
+
+// NOTE: Try using this from skopos
+// Schedule - list of maintenance windows
+// type Schedule struct {
+// 	Windows []*Window `json:"windows"`
+// }
+// // NewSchedule -- create a new maintenance schedule
+// func NewSchedule() *Schedule{
+// 	return &Schedule{
+// 		Windows: make([]*Window,0),
+// 	}
+// }
+
+// FIXME: Borrowed this from flight-director, worry about implementing this later 12/6/2017
+// func (d *Data) String() string {
+// 	return d.User + " : " + d.Private
+// }
 
 // Brain represents a somewhat persistent storage for the robot. Extend this. ( Returns a new Brain with no external storage. )
 type Brain struct {
@@ -97,18 +109,19 @@ func newBrain(robot robots.Robot) (*Brain, error) {
 	return brain, nil
 }
 
+// FIXME: Disabled for now 12/6/2017
 // Value Receiver Method
-func (b *brain) set(newvalue string){
-	// b.
+// func (b *brain) set(newvalue string) {
+// 	// b.
 
-	// Grades := make(map[string]float32)
+// 	// Grades := make(map[string]float32)
 
-	// Grades["Timmy"] = 42
-	// NOTE: If you don't make this into a pointer receiver, then setting value below will not persist other calls!
-	c.top_speed_kmh = 500
-	// Returns top speed of car in km/h
-	return float64(c.gas_pedal) * (c.top_speed_kmh / usixteenbixmax)
-}
+// 	// Grades["Timmy"] = 42
+// 	// NOTE: If you don't make this into a pointer receiver, then setting value below will not persist other calls!
+// 	c.top_speed_kmh = 500
+// 	// Returns top speed of car in km/h
+// 	return float64(c.gas_pedal) * (c.top_speed_kmh / usixteenbixmax)
+// }
 
 // // Reading through pointer to get value, then modify it
 // func (c *car) new_top_speed(newspeed float64){

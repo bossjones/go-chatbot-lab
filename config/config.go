@@ -29,7 +29,6 @@ type Provider interface {
 
 var defaultConfig *viper.Viper
 
-
 // Config returns a defaultConfig object
 func Config() Provider {
 	return defaultConfig
@@ -59,7 +58,7 @@ func readViperConfig(appName string) *viper.Viper {
 	// v.SetDefault("loglevel", "debug")
 	// v.SetDefault("mode", "debug") // debug, release, test
 	// v.SetDefault("listen_address", ":5000")
-	// v.SetDefault("secret", "887yff9898yfhuiew3489fy3hewfuig239f8ghew32yfh")
+	// v.SetDefault("secret", "887yff9898yfhuiew3489fy3hewfuig239f8ghew32yfh") - this is fake, duh
 
 	// // HTTP Server Config
 	// v.SetDefault("secure", false)

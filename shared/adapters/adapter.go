@@ -1,12 +1,5 @@
 package adapters
 
-import (
-	"errors"
-	"fmt"
-	"os"
-	"strings"
-)
-
 // import (
 // 	"errors"
 // 	"fmt"
