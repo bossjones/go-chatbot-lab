@@ -65,6 +65,9 @@ install-deps: install-tools get-deps
 get-deps:
 	glide install
 
+update:
+	glide update
+
 install-tools:
 	@which golint || go get -u github.com/golang/lint/golint
 	@which cover || go get golang.org/x/tools/cmd/cover
@@ -76,6 +79,8 @@ install-tools:
 	@which mockgen || go get github.com/golang/mock/mockgen
 	@which glide || go get github.com/Masterminds/glide
 	@which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
+	@which gocov || go get github.com/axw/gocov/gocov
+	@which gocov-xml || go get github.com/AlekSi/gocov-xml
 
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
@@ -197,6 +202,11 @@ dev-clean:
 		echo ; \
 	fi
 
+#REQUIRED-CI
+coverage:
+	.ci/test-cover xml
+
+# SOURCE: https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html
 #REQUIRED-CI
 compile lint test ci : dev-container
 	build/make/run_target_in_container.sh non_docker_$@

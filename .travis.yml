@@ -2,15 +2,50 @@ language: go
 
 # source: https://gist.github.com/y0ssar1an/df2dab474520c4086926f672c52db139
 
+sudo: false
+
+# Travis CI automatically routes builds to run on Trusty 'sudo: required 'when services: docker is configured. We do not currently support use of Docker on OS X.
+
 go:
   - 1.8.x
   - 1.9
   - master
+  # NOTE: TravisCI offers a 'tip' version of Golang. This is the latest golang version available.
+  # SOURCE: https://github.com/lemurheavy/coveralls-public/issues/745
+  - tip
+
+env:
+  global:
+    DOCKER_COMPOSE_VERSION: 1.17.1
+    DOCKER_VERSION: 17.05.0~ce-0~ubuntu-trusty
+
 
 matrix:
+  include:
+    - go: 1.8.x
+      sudo: required
+      dist: trusty
+      language: go
+      group: edge
+    - go: 1.9.x
+      sudo: required
+      dist: trusty
+      language: go
+      group: edge
+    - go: master
+      sudo: required
+      dist: trusty
+      language: go
+      group: edge
+    - go: tip
+      sudo: required
+      dist: trusty
+      language: go
+      group: edge
   # It's ok if our code fails on unstable development versions of Go.
   allow_failures:
     - go: master
+    - go: tip
   # Don't wait for tip tests to finish. Mark the test run green if the
   # tests pass on the stable versions of Go.
   fast_finish: true
@@ -18,6 +53,30 @@ matrix:
 # Don't email me the results of the test runs.
 notifications:
   email: false
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - travis_retry pip install coveralls
+  - sudo apt-cache search docker
+  # List available docker versions.
+  - apt-cache madison docker-ce
+  - sudo apt-get --allow-downgrades -y -o Dpkg::Options::="--force-confnew" install docker-ce=$DOCKER_VERSION
+  - sudo rm -f /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+  # go dependencies
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
+  # here
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/matm/gocov-html
+  # here
+  - make install-deps
 
 # # Anything in before_script that returns a nonzero exit code will
 # # flunk the build and immediately stop. It's sorta like having
@@ -38,6 +97,25 @@ notifications:
 #   - gocyclo -over 19 $GO_FILES               # forbid code with huge functions
 #   - golint -set_exit_status $(go list ./...) # one last linter
 
+# SOURCE: https://docs.travis-ci.com/user/customizing-the-build/#The-Build-Lifecycle
+# The Build Lifecycle #
+# 1. OPTIONAL Install apt addons
+# 2. OPTIONAL Install cache components
+# 3. before_install
+# 4. install
+# 5. before_script
+# 6. script
+# 7. OPTIONAL before_cache (for cleaning up cache)
+# 8. after_success or after_failure
+# 9. OPTIONAL before_deploy
+# 10. OPTIONAL deploy
+# 11. OPTIONAL after_deploy
+# 12. after_script
+
 install:
-  - go get -v github.com/Masterminds/glide
-  - make get-deps
+  # - go get -v github.com/Masterminds/glide
+  - make install-deps
+
+script:
+  # - goveralls -coverprofile=coverage.out -service travis-ci
+  - goveralls -service=travis-ci

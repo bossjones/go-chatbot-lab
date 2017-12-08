@@ -5,3 +5,7 @@ import:
 testImport:
 - package: github.com/onsi/ginkgo
 - package: github.com/onsi/gomega
+- package: github.com/axw/gocov/gocov
+- package: github.com/AlekSi/gocov-xml
+- package: github.com/mattn/goveralls
+- package: github.com/matm/gocov-html

@@ -45,6 +45,11 @@
       "text": "EXAMPLE:",
       "color": "#fff",
       "backgroundColor": "teal"
+    },
+    {
+      "text": "SOURCE:",
+      "color": "#fff",
+      "backgroundColor": "maroon"
     }
   ],
   "todohighlight.toggleURI": false,
@@ -84,6 +89,8 @@
     "bin": "explorerExcludedFiles",
     "vendor": "explorerExcludedFiles",
     ".vscode/tags": "explorerExcludedFiles",
-    ".vscode/launch.json": "explorerExcludedFiles"
+    ".vscode/launch.json": "explorerExcludedFiles",
+    "coverage.xml": "explorerExcludedFiles",
+    "coverage.html": "explorerExcludedFiles"
   }
 }

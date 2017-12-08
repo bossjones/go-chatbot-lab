@@ -1,5 +1,5 @@
-hash: 64808994f4bbe58fb53bcc5c4885782a481d360ff12ffd4f78f4fce3499913ae
-updated: 2017-12-06T14:05:18.029524563-05:00
+hash: c9ef1d092d2c2c7a747d716768692d4ef626123ba75b8776b90c110aa1291379
+updated: 2017-12-08T08:59:37.973113199-05:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
@@ -51,6 +51,16 @@ imports:
 - name: gopkg.in/yaml.v2
   version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5
 testImports:
+- name: github.com/AlekSi/gocov-xml
+  version: d2f6da892a0d5e0b587526abf51349ad654ade51
+- name: github.com/axw/gocov
+  version: 3a69a0d2a4ef1f263e2d92b041a69593d6964fe8
+  subpackages:
+  - gocov
+- name: github.com/matm/gocov-html
+  version: f6dd0fd0ebc7c8cff8b24c0a585caeef250627a3
+- name: github.com/mattn/goveralls
+  version: b71a1e4855f87991aff01c2c833a75a07059c61c
 - name: github.com/onsi/ginkgo
   version: 77a8c1e5c40d6bb6c5eb4dd4bdce9763564f6298
   subpackages:
