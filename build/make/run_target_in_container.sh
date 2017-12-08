@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #   either ssh key or agent is needed to pull adobe-platform sources from git
 #   this supplies to methods
 
