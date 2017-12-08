@@ -70,11 +70,11 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   - docker-compose --version
   # go dependencies
-  - go get github.com/mattn/goveralls
-  - go get golang.org/x/tools/cmd/cover
-  # here
-  - go get github.com/axw/gocov/gocov
-  - go get github.com/matm/gocov-html
+  # - go get github.com/mattn/goveralls
+  # - go get golang.org/x/tools/cmd/cover
+  # # here
+  # - go get github.com/axw/gocov/gocov
+  # - go get github.com/matm/gocov-html
   # here
   - make install-deps
 
@@ -114,8 +114,8 @@ before_install:
 
 install:
   # - go get -v github.com/Masterminds/glide
-  - make install-deps
+  - make ci
 
 script:
   # - goveralls -coverprofile=coverage.out -service travis-ci
-  - goveralls -service=travis-ci
+  - make coveralls
