@@ -247,4 +247,16 @@ godepgraph:
 # 	go build -o ./capcom
 # *****************************************************
 
+# *****************************************************
+# SOURCE: https://github.com/wellington/sass/blob/master/Makefile
+#
+# test:
+# 	go list -f '{{if len .TestGoFiles}}"go test -short {{.ImportPath}}"{{end}}' ./... | grep -v /vendor/ | xargs -L 1 sh -c
+
+# cover:
+# 	go list -f '{{if len .TestGoFiles}}"go test -cover -short {{.ImportPath}}"{{end}}' ./... | grep -v /vendor/ | xargs -L 1 sh -c
+# race:
+# 	go list -f '{{if len .TestGoFiles}}"go test -race -short {{.ImportPath}}"{{end}}' ./... | grep -v /vendor/ | xargs -L 1 sh -c
+# *****************************************************
+
 include build/make/*.mk
