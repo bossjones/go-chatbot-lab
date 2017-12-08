@@ -2,3 +2,13 @@ package: github.com/bossjones/go-chatbot-lab
 import:
 - package: github.com/spf13/viper
 - package: github.com/Sirupsen/logrus
+testImport:
+- package: github.com/onsi/ginkgo
+- package: github.com/onsi/gomega
+- package: github.com/axw/gocov/gocov
+- package: github.com/AlekSi/gocov-xml
+- package: github.com/mattn/goveralls
+- package: github.com/matm/gocov-html
+- package: github.com/kisielk/godepgraph
+# Gather all your *.coverprofile files to send to coveralls.io!
+- package: github.com/modocache/gover

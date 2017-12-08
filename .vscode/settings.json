@@ -1,4 +1,83 @@
 {
+  "todohighlight.isEnable": true,
+  "todohighlight.isCaseSensitive": true,
+  "editor.formatOnSave": false,
+  "go.formatOnSave": true,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2a",
+      "overviewRulerColor": "rgba(255,189,42,0.8)"
+    },
+    {
+      "text": "FIXME:",
+      "color": "#fff",
+      "backgroundColor": "#f06292",
+      "overviewRulerColor": "rgba(240,98,146,0.8)"
+    },
+    {
+      "text": "BOSSJONES:",
+      "color": "#fff",
+      "backgroundColor": "green"
+    },
+    {
+      "text": "DEBUG:",
+      "color": "#fff",
+      "backgroundColor": "blue"
+    },
+    {
+      "text": "REVIEW:",
+      "color": "#fff",
+      "backgroundColor": "yellow"
+    },
+    {
+      "text": "INFO:",
+      "color": "#fff",
+      "backgroundColor": "violet"
+    },
+    {
+      "text": "NOTE:",
+      "color": "#fff",
+      "backgroundColor": "grey"
+    },
+    {
+      "text": "EXAMPLE:",
+      "color": "#fff",
+      "backgroundColor": "teal"
+    },
+    {
+      "text": "SOURCE:",
+      "color": "#fff",
+      "backgroundColor": "maroon"
+    }
+  ],
+  "todohighlight.toggleURI": false,
+  "todohighlight.include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.html",
+    "**/*.php",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.go"
+  ],
+  "todohighlight.exclude": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.vscode/**",
+    "**/.github/**",
+    "**/_output/**",
+    "**/*.min.*",
+    "**/*.map",
+    "**/.vscode/settings.json",
+    "**/.next/**"
+  ],
+  "todohighlight.maxFilesForSearch": 5120,
   "files.exclude": {
     "*.exe": "explorerExcludedFiles",
     "*.dll": "explorerExcludedFiles",
@@ -8,6 +87,11 @@
     "*.out": "explorerExcludedFiles",
     ".glide/": "explorerExcludedFiles",
     "bin": "explorerExcludedFiles",
-    "vendor": "explorerExcludedFiles"
+    "vendor": "explorerExcludedFiles",
+    ".vscode/tags": "explorerExcludedFiles",
+    ".vscode/launch.json": "explorerExcludedFiles",
+    "coverage.xml": "explorerExcludedFiles",
+    "coverage.html": "explorerExcludedFiles",
+    "*.coverprofile": "explorerExcludedFiles"
   }
 }

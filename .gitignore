@@ -15,3 +15,10 @@
 
 bin
 vendor
+
+.vscode/tags
+.vscode/launch.json
+
+coverage.xml
+coverage.html
+*.coverprofile

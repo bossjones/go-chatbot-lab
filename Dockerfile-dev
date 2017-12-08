@@ -1,0 +1,52 @@
+# Build Stage
+FROM golang:1.9.2-stretch AS build-stage
+
+LABEL app="build-go-chatbot-lab"
+LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
+
+# ENV GOROOT=/usr/lib/go \
+#     GOPATH=/go \
+#     GOBIN=/go/bin \
+#     PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
+
+ENV GOPATH=/go \
+    GOBIN=/go/bin \
+    PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
+
+ARG GIT_COMMIT
+ARG VERSION
+LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
+LABEL GIT_COMMIT=$GIT_COMMIT
+LABEL VERSION=$VERSION
+
+# Because of https://github.com/docker/docker/issues/14914
+# ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+ADD . /go/src/github.com/bossjones/go-chatbot-lab
+WORKDIR /go/src/github.com/bossjones/go-chatbot-lab
+
+# RUN apt-get update && apt-get install apk add --no-cache \
+#     bash \
+#     build-base \
+#     curl \
+#     make \
+#     git \
+#     sqlite-dev \
+#     openssh-client \
+#     && make install-tools
+
+#
+# Prepare git to use ssh-agent, ssh keys for adobe-platform; ignore interactive knownhosts questions from ssh
+# - For automated building with private repos only accessible by ssh
+#
+
+RUN make build
+
+RUN mkdir -p /root/.ssh && chmod og-rwx /root/.ssh && \
+    echo "Host * " > /root/.ssh/config && \
+    echo "StrictHostKeyChecking no " >> /root/.ssh/config && \
+    echo "UserKnownHostsFile=/dev/null" >> /root/.ssh/config
+
+
+CMD /bin/bash
+

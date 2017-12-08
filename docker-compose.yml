@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      SERVER_LOG_MINIMAL: 1
+    volumes:
+    - ./:/go/src/github.com/bossjones/go-chatbot-lab:rw
