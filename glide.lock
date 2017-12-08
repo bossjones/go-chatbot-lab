@@ -1,5 +1,5 @@
-hash: 84712a24bb2713d615002c6f9da334a0c305620e48450bb4f0f53e9484ee5950
-updated: 2017-12-08T09:28:58.564248671-05:00
+hash: 7458b46ab723c67f2301fd402f39a37dfdb122adf04a2f98485c897e21feec8b
+updated: 2017-12-08T10:20:37.635862995-05:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
@@ -63,6 +63,8 @@ testImports:
   version: f6dd0fd0ebc7c8cff8b24c0a585caeef250627a3
 - name: github.com/mattn/goveralls
   version: b71a1e4855f87991aff01c2c833a75a07059c61c
+- name: github.com/modocache/gover
+  version: b58185e213c533169f76aa366e6c68fe56f2881b
 - name: github.com/onsi/ginkgo
   version: 77a8c1e5c40d6bb6c5eb4dd4bdce9763564f6298
   subpackages:

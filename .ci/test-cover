@@ -31,6 +31,13 @@ if [[ "${_FORMAT}" == "xml" ]]; then
 elif [[ "${_FORMAT}" == "html" ]]; then
   echo "******* Go coveralls report html... *************" && \
   gocov test $(go list ./... | grep -v /vendor/) | gocov-html > coverage.html
+elif [[ "${_FORMAT}" == "coveralls" ]]; then
+  # INFO: Go, multiple packages and coveralls.io
+  # SOURCE: https://gist.github.com/rjeczalik/6f01430e8554bf59b88e
+  echo "******* Go coveralls report coverprofile... *************" && \
+  go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' $(go list ./... | grep -v /vendor/ | grep -v mocks ) | xargs -L 1 sh -c;
+  gover;
+  goveralls -coverprofile=.coverprofile -service=travis-ci
 else
     echo ""
 fi

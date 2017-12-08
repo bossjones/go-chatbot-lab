@@ -91,6 +91,7 @@
     ".vscode/tags": "explorerExcludedFiles",
     ".vscode/launch.json": "explorerExcludedFiles",
     "coverage.xml": "explorerExcludedFiles",
-    "coverage.html": "explorerExcludedFiles"
+    "coverage.html": "explorerExcludedFiles",
+    "*.coverprofile": "explorerExcludedFiles"
   }
 }

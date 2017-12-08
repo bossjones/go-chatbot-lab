@@ -10,3 +10,5 @@ testImport:
 - package: github.com/mattn/goveralls
 - package: github.com/matm/gocov-html
 - package: github.com/kisielk/godepgraph
+# Gather all your *.coverprofile files to send to coveralls.io!
+- package: github.com/modocache/gover

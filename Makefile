@@ -82,6 +82,8 @@ install-tools:
 	@which gocov || go get github.com/axw/gocov/gocov
 	@which gocov-xml || go get github.com/AlekSi/gocov-xml
 	@which godepgraph || go get github.com/kisielk/godepgraph
+	@which goveralls || go get github.com/mattn/goveralls
+	@which gover || go get github.com/modocache/gover
 
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
@@ -204,8 +206,13 @@ dev-clean:
 	fi
 
 #REQUIRED-CI
+coverage-xml:
 coverage:
 	.ci/test-cover xml
+
+#REQUIRED-CI
+coveralls:
+	.ci/test-cover coveralls
 
 # SOURCE: https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html
 #REQUIRED-CI
