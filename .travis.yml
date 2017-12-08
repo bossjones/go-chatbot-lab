@@ -6,13 +6,13 @@ sudo: false
 
 # Travis CI automatically routes builds to run on Trusty 'sudo: required 'when services: docker is configured. We do not currently support use of Docker on OS X.
 
-go:
-  - 1.8.x
-  - 1.9
-  - master
-  # NOTE: TravisCI offers a 'tip' version of Golang. This is the latest golang version available.
-  # SOURCE: https://github.com/lemurheavy/coveralls-public/issues/745
-  - tip
+# go:
+#   - 1.8.x
+#   - 1.9
+#   - master
+#   # NOTE: TravisCI offers a 'tip' version of Golang. This is the latest golang version available.
+#   # SOURCE: https://github.com/lemurheavy/coveralls-public/issues/745
+#   - tip
 
 env:
   global:
