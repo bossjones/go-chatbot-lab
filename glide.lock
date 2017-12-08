@@ -1,5 +1,5 @@
-hash: c9ef1d092d2c2c7a747d716768692d4ef626123ba75b8776b90c110aa1291379
-updated: 2017-12-08T08:59:37.973113199-05:00
+hash: 84712a24bb2713d615002c6f9da334a0c305620e48450bb4f0f53e9484ee5950
+updated: 2017-12-08T09:28:58.564248671-05:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
@@ -57,6 +57,8 @@ testImports:
   version: 3a69a0d2a4ef1f263e2d92b041a69593d6964fe8
   subpackages:
   - gocov
+- name: github.com/kisielk/godepgraph
+  version: 054b8858b346441464f5f0a64e80dd4c7ec16379
 - name: github.com/matm/gocov-html
   version: f6dd0fd0ebc7c8cff8b24c0a585caeef250627a3
 - name: github.com/mattn/goveralls

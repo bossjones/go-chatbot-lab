@@ -9,3 +9,4 @@ testImport:
 - package: github.com/AlekSi/gocov-xml
 - package: github.com/mattn/goveralls
 - package: github.com/matm/gocov-html
+- package: github.com/kisielk/godepgraph

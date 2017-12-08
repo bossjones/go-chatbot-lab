@@ -81,6 +81,7 @@ install-tools:
 	@which go-bindata || go get -u github.com/jteeuwen/go-bindata/...
 	@which gocov || go get github.com/axw/gocov/gocov
 	@which gocov-xml || go get github.com/AlekSi/gocov-xml
+	@which godepgraph || go get github.com/kisielk/godepgraph
 
 build-alpine:
 	@echo "building ${BIN_NAME} ${VERSION}"
@@ -210,6 +211,9 @@ coverage:
 #REQUIRED-CI
 compile lint test ci : dev-container
 	build/make/run_target_in_container.sh non_docker_$@
+
+godepgraph:
+	godepgraph .
 
 # *****************************************************
 # from capcom
