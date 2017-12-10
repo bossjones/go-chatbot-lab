@@ -58,7 +58,8 @@ type Robot struct {
 	// Alias is an alternative name to use for your chatbot
 	Alias *string
 
-	Brain brains.Brain
+	// RobotBrain -
+	RobotBrain *brains.Brain
 }
 
 // NewRobot returns a reference to an instance of Robot
@@ -92,8 +93,8 @@ func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, a
 		*alias = DefaultName
 	}
 
-	data := brain.NewData()
-	brain := brain.NewBrain(&data)
+	rdata := brains.NewData()
+	rbrain := brains.NewBrain(rdata)
 
 	robot := Robot{
 		AdapterPath: adapterpath,
@@ -101,7 +102,7 @@ func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, a
 		Httpd:       httpd,
 		Name:        name,
 		Alias:       alias,
-		Brain:       brain,
+		RobotBrain:  rbrain,
 	}
 
 	return &robot

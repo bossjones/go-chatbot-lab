@@ -21,12 +21,18 @@ func TestData(t *testing.T) {
 
 var _ = Describe("Brain", func() {
 	Describe("Creating a Data object using NewData", func() {
-		It("Should return a Data object", func() {
+
+		It("Should return a Data object with property User and Private of type {<str>:<str>}", func() {
 			d := *NewData()
 
 			Expect(d.User).To(BeAssignableToTypeOf(make(map[string]string)))
 			Expect(d.Private).To(BeAssignableToTypeOf(make(map[string]string)))
-			Expect(d).To(BeAssignableToTypeOf(new(Data)))
+		})
+
+		It("Should return a Data object of type Data", func() {
+			d := *NewData()
+
+			Expect(&d).To(BeAssignableToTypeOf(new(Data)))
 		})
 
 	})
@@ -35,7 +41,8 @@ var _ = Describe("Brain", func() {
 		It("Should return a Brain object", func() {
 			d := *NewData()
 			b := *NewBrain(&d)
-			Expect(b).To(BeAssignableToTypeOf(new(Brain)))
+
+			Expect(&b).To(BeAssignableToTypeOf(new(Brain)))
 		})
 	})
 

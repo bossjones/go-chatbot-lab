@@ -115,9 +115,15 @@ func NewBrain(data *Data) *Brain {
 	// }
 
 	brain := Brain{
-		data:     &Data{},
+		data:     NewData(),
 		autoSave: false,
 	}
+
+	// FIXME: Use to be this 12/10/2017, is that what we want?
+	// brain := Brain{
+	// 	data:     &Data{},
+	// 	autoSave: false,
+	// }
 
 	return &brain
 }
