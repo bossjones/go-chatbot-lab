@@ -54,6 +54,25 @@ func NewData() *Data {
 	return &data
 }
 
+// INFO: https://golang.org/src/go/types/object.go?s=7598:7626#L203
+// INFO: Regarding type 'type Func'
+// A Func represents a declared function, concrete method, or abstract (interface) method. Its Type() is always a *Signature. An abstract method may belong to many interfaces due to embedding.
+
+//  # Public: Store key-value pair under the private namespace and extend
+//   # existing @data before emitting the 'loaded' event.
+//   #
+//   # Returns the instance for chaining.
+//   set: (key, value) ->
+//     if key is Object(key)
+//       pair = key
+//     else
+//       pair = {}
+//       pair[key] = value
+
+//     extend @data._private, pair
+//     @emit 'loaded', @data
+//     @
+
 // INFO: https://stackoverflow.com/questions/27455170/error-struct-type-is-not-an-expression
 
 // NOTE: Try using this from skopos

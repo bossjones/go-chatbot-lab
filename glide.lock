@@ -1,5 +1,5 @@
-hash: 7458b46ab723c67f2301fd402f39a37dfdb122adf04a2f98485c897e21feec8b
-updated: 2017-12-08T10:20:37.635862995-05:00
+hash: 240868c604abb60d3b1994695c0c3dd2a5b8860ef27f432484212177c1021c27
+updated: 2017-12-10T00:14:47.576343543-05:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
@@ -34,6 +34,8 @@ imports:
   version: 4c012f6dcd9546820e378d0bdda4d8fc772cdfea
 - name: github.com/spf13/viper
   version: 4dddf7c62e16bce5807744018f5b753bfe21bbd2
+- name: github.com/twinj/uuid
+  version: 7bbe408d339787c56ec15568c947c0959db1b275
 - name: golang.org/x/crypto
   version: 94eea52f7b742c7cbe0b03b22f0c4c8631ece122
   subpackages:
