@@ -19,18 +19,23 @@ func TestData(t *testing.T) {
 	RunSpecs(t, "Data Suite")
 }
 
-var _ = Describe("Data", func() {
-	var (
-		data Data
-	)
+var _ = Describe("Brain", func() {
+	Describe("Creating a Data object using NewData", func() {
+		It("Should return a Data object", func() {
+			d := *NewData()
 
-	BeforeEach(func() {
-		data = *NewData()
+			Expect(d.User).To(BeAssignableToTypeOf(make(map[string]string)))
+			Expect(d.Private).To(BeAssignableToTypeOf(make(map[string]string)))
+			Expect(d).To(BeAssignableToTypeOf(new(Data)))
+		})
+
 	})
-	Describe("NewData", func() {
-		It("Is initialized properly", func() {
-			Expect(data.User).To(BeAssignableToTypeOf(make(map[string]string)))
-			Expect(data.Private).To(BeAssignableToTypeOf(make(map[string]string)))
+
+	Describe("Creating a Brain using NewBrain", func() {
+		It("Should return a Brain object", func() {
+			d := *NewData()
+			b := *NewBrain(&d)
+			Expect(b).To(BeAssignableToTypeOf(new(Brain)))
 		})
 	})
 
