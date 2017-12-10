@@ -1,3 +1,9 @@
+//go:generate mockgen -destination mock/user_mock.go github.com/bossjones/go-chatbot-lab/shared/users User
+
+// source: https://blog.carlmjohnson.net/post/2016-11-27-how-to-use-go-generate/
+
+// Please consult the docs for a full specification of the flags and options it accepts. When you run the command go generate, the Go tool scans the files relevant to the current package for lines with a “magic comment” of the form //go:generate command arguments. This command does not have to do anything related to Go or code generation.
+
 package users
 
 import (

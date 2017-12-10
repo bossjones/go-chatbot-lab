@@ -105,7 +105,9 @@ type Brain struct {
 
 // instantiate a new GithubAuthorizer
 // robot robots.Robot,
-func newBrain(data *Data) *Brain {
+
+// NewBrain -
+func NewBrain(data *Data) *Brain {
 	// TODO: We need to pass in some sort of struct that represents commandline data
 	// githubAPIURL, err := parseGithubAPI(config.GithubAPI)
 	// if err != nil {

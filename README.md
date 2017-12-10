@@ -43,3 +43,19 @@ Eg.
  |2.2.3|    dev7-behance-1484 in ~/dev/go_workspace/src/github.com/bossjones
 ○ → code go-chatbot-lab/
 ```
+
+# mockgen
+
+```
+#!/bin/bash -e
+
+# source: https://github.com/rafrombrc/gomock/blob/master/update_mocks.sh
+
+mockgen github.com/rafrombrc/gomock/gomock Matcher \
+  > gomock/mock_matcher/mock_matcher.go
+mockgen github.com/rafrombrc/gomock/sample Index,Embed,Embedded \
+  > sample/mock_user/mock_user.go
+gofmt -w gomock/mock_matcher/mock_matcher.go sample/mock_user/mock_user.go
+
+echo >&2 "OK"
+```
