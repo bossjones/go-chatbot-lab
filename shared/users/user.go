@@ -3,7 +3,7 @@ package users
 import (
 	"fmt"
 
-	. "github.com/bossjones/go-chatbot-lab/shared/lib"
+	util "github.com/bossjones/go-chatbot-lab/shared/lib"
 )
 
 // User represents a participating user in the chat.
@@ -19,7 +19,7 @@ type User struct {
 func NewUser(op map[string]string) *User {
 
 	user := User{
-		id:      CreateUUID(),
+		id:      util.CreateUUID(),
 		options: make(map[string]string),
 	}
 
