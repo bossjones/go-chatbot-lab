@@ -7,37 +7,33 @@ package robots
 // const Middleware = require('./middleware')
 
 import (
-	"fmt"
-
 	"github.com/bossjones/go-chatbot-lab/log"
-	brain "github.com/bossjones/go-chatbot-lab/shared/brains"
-	util "github.com/bossjones/go-chatbot-lab/shared/lib"
+	"github.com/bossjones/go-chatbot-lab/shared/brains"
 )
 
 // AliasSentinel sentinel to use by default
 const AliasSentinel string = "ALIAS_SENT"
 
 // DefaultName -
-const DefaultName    = string("Scarlett")
+const DefaultName = string("Scarlett")
 
 // DefaultPort -
-const DefaultPort    = string("5535")
+const DefaultPort = string("5535")
 
 // DefaultTTL -
-const DefaultTTL     = uint64(60)
+const DefaultTTL = uint64(60)
 
 // DefaultTimeout -
 const DefaultTimeout = uint64(5)
 
 // TTLRenew -
-const TTLRenew       = int64(30)
+const TTLRenew = int64(30)
 
 // ResolverAgeSec -
 const ResolverAgeSec = float64(20)
 
 // DefaultAdapter -
 const DefaultAdapter = string("shell")
-
 
 // ChatbotDefaultAdapters is a string slice ( similar to array, but not of fixed size ) of available adaptors
 var ChatbotDefaultAdapters = []string{"campfire", "shell"}
@@ -62,17 +58,16 @@ type Robot struct {
 	// Alias is an alternative name to use for your chatbot
 	Alias *string
 
-	Brain brain.Brain
+	Brain brains.Brain
 }
-
 
 // NewRobot returns a reference to an instance of Robot
 func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, alias *string) *Robot {
 
 	log.WithFields(log.Fields{
-				"EventName": "new_robot",
-				"Info":     "Creating new Robot Object",
-			}).Info("Creating new Robot Object")
+		"EventName": "new_robot",
+		"Info":      "Creating new Robot Object",
+	}).Info("Creating new Robot Object")
 
 	if *adapterpath == "" {
 		*adapterpath = DefaultAdapter
@@ -102,17 +97,15 @@ func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, a
 
 	robot := Robot{
 		AdapterPath: adapterpath,
-		Adapter: adapter,
-		Httpd: httpd,
-		Name: name,
-		Alias: alias,
-		Brain: brain,
+		Adapter:     adapter,
+		Httpd:       httpd,
+		Name:        name,
+		Alias:       alias,
+		Brain:       brain,
 	}
 
 	return &robot
 }
-
-
 
 // Robots receive messages from a chat source (Campfire, irc, etc), and
 // dispatch them to matching listeners.
