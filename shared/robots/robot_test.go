@@ -77,15 +77,11 @@ var _ = Describe("Robot", func() {
 			fmt.Println(&adapterpath_str)
 			fmt.Println(r.AdapterPath)
 			fmt.Println(*r.AdapterPath)
-			fmt.Println(AdapterPathValue)
-			fmt.Println(*AdapterPathValue)
 			fmt.Println("*****AIYO*******")
 
 			// *****AIYO*******
 			// shell
 			// 0xc42004d440
-			// 0xc42004d440
-			// shell
 			// 0xc42004d440
 			// shell
 			// *****AIYO*******
