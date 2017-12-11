@@ -1,5 +1,9 @@
 package lib
 
+import (
+	"github.com/twinj/uuid"
+)
+
 // import "encoding/json"
 
 // https://siongui.github.io/2016/01/30/go-pretty-print-variable/
@@ -18,4 +22,10 @@ func In(val string, targ []string) bool {
 		}
 	}
 	return false
+}
+
+// CreateUUID returns a string version of a V1 uuid
+func CreateUUID() string {
+	u1 := uuid.NewV1()
+	return u1.String()
 }
