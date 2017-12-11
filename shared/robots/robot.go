@@ -85,6 +85,8 @@ func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, a
 	// 	setupNullRouter()
 	// }
 
+	*httpd = false
+
 	if *name == "" {
 		*name = DefaultName
 	}
