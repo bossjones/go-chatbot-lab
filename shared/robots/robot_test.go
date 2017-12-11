@@ -92,7 +92,7 @@ var _ = Describe("Robot", func() {
 			Expect(*r.Httpd).To(BeFalse())
 			Expect(*r.Name).To(BeEquivalentTo("Scarlett"))
 			Expect(*r.Alias).To(BeEquivalentTo("Scarlett"))
-			Expect(*r.RobotBrain).To(BeAssignableToTypeOf(new(Brain)))
+			Expect(r.RobotBrain).To(BeAssignableToTypeOf(new(Brain)))
 
 		})
 
