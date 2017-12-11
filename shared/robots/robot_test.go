@@ -10,35 +10,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-// import (
-// 	"reflect"
-// 	"testing"
-// )
-
-// func TestNewRobot(t *testing.T) {
-// 	type args struct {
-// 		adapterpath *string
-// 		adapter     *string
-// 		httpd       *bool
-// 		name        *string
-// 		alias       *string
-// 	}
-// 	tests := []struct {
-// 		name string
-// 		args args
-// 		want *Robot
-// 	}{
-// 	// TODO: Add test cases.
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if got := NewRobot(tt.args.adapterpath, tt.args.adapter, tt.args.httpd, tt.args.name, tt.args.alias); !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("NewRobot() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
-// }
-
 // INFO: https://stackoverflow.com/questions/6478962/what-does-the-dot-or-period-in-a-go-import-statement-do
 
 // If an explicit period (.) appears instead of a name, all the package's exported identifiers will be declared in the current file's file block and can be accessed without a qualifier.
