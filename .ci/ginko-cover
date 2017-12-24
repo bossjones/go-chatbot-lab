@@ -68,8 +68,8 @@ gover;
 echo "[info] dump gover.coverprofile";
 \cat gover.coverprofile;
 echo "[info] Remove fixture data from gover repo, mario etc";
-awk '/mario|sonic|link to the past/{n=6}; n {n--; next}; 1' < gover.coverprofile > gover2.coverprofile
-mv -f gover2.coverprofile gover.coverprofile;
+awk '/mario|sonic|link to the past/{n=6}; n {n--; next}; 1' < gover.coverprofile > gover2.coverprofile;
+mv -fv gover2.coverprofile gover.coverprofile;
 echo "[info] dump gover.coverprofile";
 \cat gover.coverprofile;
 echo "[info] Finally run goveralls";
