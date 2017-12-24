@@ -3,9 +3,28 @@
 set -e
 
 PROJECT=$(go list -f "{{.ImportPath}}");
-COVERAGE_MODE='mode: atomic'
+# COVERAGE_MODE='mode: atomic'
+COVERAGE_MODE='mode: set'
 PACKAGES_TO_SKIP="mario"
 
+# 79 mario
+# 80 a link to the past
+# 81 sonic
+# 82 mario
+# 83 mario
+# 84 a link to the past
+
+go tool vet -all config shared
+DIRS="config/... shared/..." && FAILED="false" && \
+echo "gofmt -l *.go config shared" && \
+GOFMT=$(gofmt -l *.go config shared) && \
+if [ ! -z "$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$GOFMT\n" && FAILED="true"; fi; \
+for codeDir in $DIRS; do \
+    echo "golint $codeDir" && \
+    LINT="$(golint $codeDir)" && \
+    if [ ! -z "$LINT" ]; then echo "$LINT" && FAILED="true"; fi; \
+done && \
+if [ "$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
 
 # ******************************[OLD]***********************************************
 # cd `dirname $0`
@@ -46,6 +65,6 @@ ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace 
 echo "[info] To collect coverages from all packages, below code snippet has been used";
 gover;
 echo "[info] Remove fixture data from gover repo, mario etc";
-\cat gover.coverprofile | grep $PROJECT | grep ${COVERAGE_MODE} > gover2.coverprofile;
+\cat gover.coverprofile | grep "${PROJECT}" | grep "${COVERAGE_MODE}" | grep -v "mario" | grep -v "sonic" | grep -v "link to the past" > gover2.coverprofile;
 mv -f gover2.coverprofile gover.coverprofile;
 echo "[info] Finally run goveralls";
