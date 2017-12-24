@@ -159,23 +159,22 @@ non_docker_test: install-deps non_docker_lint
 	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
 
 quick_cover_test:
-# go tool vet -all config shared
-# @DIRS="config/... shared/..." && FAILED="false" && \
-# echo "gofmt -l *.go config shared" && \
-# GOFMT=$$(gofmt -l *.go config shared) && \
-# if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
-# for codeDir in $$DIRS; do \
-# 	echo "golint $$codeDir" && \
-# 	LINT="$$(golint $$codeDir)" && \
-# 	if [ ! -z "$$LINT" ]; then echo "$$LINT" && FAILED="true"; fi; \
-# done && \
-# if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
+	go tool vet -all config shared
+	@DIRS="config/... shared/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared" && \
+	GOFMT=$$(gofmt -l *.go config shared) && \
+	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
+	for codeDir in $$DIRS; do \
+		echo "golint $$codeDir" && \
+		LINT="$$(golint $$codeDir)" && \
+		if [ ! -z "$$LINT" ]; then echo "$$LINT" && FAILED="true"; fi; \
+	done && \
+	if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
 
-# @echo "******* Checking if test code compiles... *************" && \
-# go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -c % || exit 255'
-# @echo "******* Running tests... ******************************"
-# go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
-	.ci/ginko-cover
+	@echo "******* Checking if test code compiles... *************" && \
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -c % || exit 255'
+	@echo "******* Running tests... ******************************"
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
 
 #REQUIRED-CI
 non_docker_ci: non_docker_compile non_docker_test
@@ -250,8 +249,8 @@ coverage:
 	.ci/test-cover xml
 
 #REQUIRED-CI
-coveralls:
-	.ci/test-cover coveralls
+coveralls: ginkgo-cover
+# .ci/test-cover coveralls
 
 #REQUIRED-CI
 ginkgo-cover:
