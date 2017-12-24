@@ -252,6 +252,9 @@ coveralls:
 ginkgo-cover:
 	.ci/test-cover ginkgo
 
+test-auto: ginkgo-cover
+	ginkgo watch -r -cover .
+
 # SOURCE: https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html
 #REQUIRED-CI
 compile lint test ci : dev-container

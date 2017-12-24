@@ -53,6 +53,8 @@ func main() {
 		if VersionPrerelease != "" {
 			fmt.Println("Version PreRelease:", VersionPrerelease)
 		}
+		// Return multiple named results simply by return
+		// versionFlag, flag, and fmt will be returned(?)
 		return
 	}
 
