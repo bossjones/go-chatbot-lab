@@ -67,7 +67,7 @@ elif [[ "${_FORMAT}" == "ginkgo" ]]; then
   gover;
   echo "[info] Remove fixture data from gover repo, mario etc";
   PROJECT=$(go list -f "{{.ImportPath}}");
-  \cat gover.coverprofile | grep $PROJECT | grep "mode: atomic" > gover2.coverprofile;
+  /bin/cat gover.coverprofile | grep $PROJECT | grep "mode: atomic" > gover2.coverprofile;
   mv -f gover2.coverprofile gover.coverprofile;
   echo "[info] Finally run goveralls";
   goveralls -coverprofile=gover.coverprofile -service=travis-ci

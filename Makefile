@@ -249,12 +249,13 @@ coverage:
 	.ci/test-cover xml
 
 #REQUIRED-CI
-coveralls: ginkgo-cover
+coveralls:
+	$(MAKE) non_docker_ginko_cover
 # .ci/test-cover coveralls
 
 #REQUIRED-CI
 ginkgo-cover:
-	.ci/test-cover ginkgo
+	bash -x .ci/test-cover ginkgo
 
 test-auto: ginkgo-cover
 	ginkgo watch -r -cover .

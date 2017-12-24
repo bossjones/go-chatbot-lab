@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 set -e
-# set -x
+set -x
 
 PROJECT=$(go list -f "{{.ImportPath}}");
-# COVERAGE_MODE='mode: atomic'
 COVERAGE_MODE='mode: set'
 PACKAGES_TO_SKIP="mario"
 
@@ -15,17 +14,17 @@ PACKAGES_TO_SKIP="mario"
 # 83 mario
 # 84 a link to the past
 
-go tool vet -all config shared
-DIRS="config/... shared/..." && FAILED="false" && \
-echo "gofmt -l *.go config shared" && \
-GOFMT=$(gofmt -l *.go config shared) && \
-if [ ! -z "$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$GOFMT\n" && FAILED="true"; fi; \
-for codeDir in $DIRS; do \
-    echo "golint $codeDir" && \
-    LINT="$(golint $codeDir)" && \
-    if [ ! -z "$LINT" ]; then echo "$LINT" && FAILED="true"; fi; \
-done && \
-if [ "$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
+# go tool vet -all config shared
+# DIRS="config/... shared/..." && FAILED="false" && \
+# echo "gofmt -l *.go config shared" && \
+# GOFMT=$(gofmt -l *.go config shared) && \
+# if [ ! -z "$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$GOFMT\n" && FAILED="true"; fi; \
+# for codeDir in $DIRS; do \
+#     echo "golint $codeDir" && \
+#     LINT="$(golint $codeDir)" && \
+#     if [ ! -z "$LINT" ]; then echo "$LINT" && FAILED="true"; fi; \
+# done && \
+# if [ "$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
 
 # ******************************[OLD]***********************************************
 # cd `dirname $0`
