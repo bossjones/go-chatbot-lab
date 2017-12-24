@@ -66,7 +66,8 @@ elif [[ "${_FORMAT}" == "ginkgo" ]]; then
   echo "[info] To collect coverages from all packages, below code snippet has been used";
   gover;
   echo "[info] Remove fixture data from gover repo, mario etc";
-  \cat gover.coverprofile | grep $(go list -f "{{.ImportPath}}") > gover2.coverprofile;
+  PROJECT=$(go list -f "{{.ImportPath}}");
+  \cat gover.coverprofile | grep $PROJECT | grep "mode: atomic" > gover2.coverprofile;
   mv -f gover2.coverprofile gover.coverprofile;
   echo "[info] Finally run goveralls";
   goveralls -coverprofile=gover.coverprofile -service=travis-ci
