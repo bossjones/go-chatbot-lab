@@ -1,6 +1,14 @@
-hash: 276cbc3a1154278f94f0f684d231c45c2ff993179bc2ca87a8cc4846bac83e1f
-updated: 2017-12-23T13:11:04.964770706-05:00
+hash: 8c9b229054a7dd2996b10ba48058407cde5d3a792094abc989b62f2c35768001
+updated: 2017-12-24T11:18:49.563481609-08:00
 imports:
+- name: github.com/behance/go-cli
+  version: 50c77ecec0068c9aef9d90ae0fd0fdf410041da3
+- name: github.com/behance/go-common
+  version: df5dbebd2fe89e1e2a13e128e74b4fd8e272a733
+  subpackages:
+  - kvwrapper
+  - kvwrapper_etcd
+  - log
 - name: github.com/behance/go-logging
   version: ed77fb98a4032938046e44d0dc90e9ebb2989c3c
   subpackages:
@@ -16,15 +24,6 @@ imports:
   version: 4dddf7c62e16bce5807744018f5b753bfe21bbd2
 - name: github.com/twinj/uuid
   version: 7bbe408d339787c56ec15568c947c0959db1b275
-- name: golang.org/x/crypto
-  version: 94eea52f7b742c7cbe0b03b22f0c4c8631ece122
-  subpackages:
-  - ssh/terminal
-- name: golang.org/x/sys
-  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
-  subpackages:
-  - unix
-  - windows
 testImports:
 - name: github.com/AlekSi/gocov-xml
   version: d2f6da892a0d5e0b587526abf51349ad654ade51
@@ -74,5 +73,9 @@ testImports:
   - matchers/support/goraph/node
   - matchers/support/goraph/util
   - types
+- name: golang.org/x/sys
+  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
+  subpackages:
+  - unix
 - name: gopkg.in/yaml.v2
   version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5

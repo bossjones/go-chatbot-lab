@@ -12,7 +12,7 @@ import (
 	log "github.com/behance/go-logging/log"
 )
 
-// Chatbot config
+// Config -
 type Config struct {
 	// ********************************************
 	ConfigFile string `json:"configFile"`
@@ -53,17 +53,20 @@ type Config struct {
 	// ********************************************
 }
 
+// NewConfig -
 func NewConfig(file string) (Config, error) {
 	c := Config{}
 	if file != "" {
 		err := c.LoadFromConfigFile(file)
 		return c, err
-	} else {
-		c.LoadFromEnv()
-		return c, nil
 	}
+
+	c.LoadFromEnv()
+	return c, nil
+
 }
 
+// LoadFromEnv -
 func (c *Config) LoadFromEnv() {
 	setValueFromEnv(&c.Name, "CHATBOT_NAME")
 	setSliceValueFromEnv(&c.Commands, "CHATBOT_COMMANDS")
@@ -84,6 +87,7 @@ func (c *Config) LoadFromEnv() {
 	setValueFromEnv(&c.SSLCertLocation, "CHATBOT_SSL_CERT_LOCATION")
 }
 
+// LoadFromConfigFile -
 func (c *Config) LoadFromConfigFile(configFile string) error {
 
 	c.ConfigFile = configFile

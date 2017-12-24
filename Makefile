@@ -133,10 +133,10 @@ clean:
 non_docker_compile:  install-deps bin/go-chatbot-lab
 
 non_docker_lint: install-deps
-	go tool vet -all config shared log
-	@DIRS="config/... shared/... log/..." && FAILED="false" && \
-	echo "gofmt -l *.go config shared log" && \
-	GOFMT=$$(gofmt -l *.go config shared log) && \
+	go tool vet -all config shared
+	@DIRS="config/... shared/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared" && \
+	GOFMT=$$(gofmt -l *.go config shared) && \
 	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
 	for codeDir in $$DIRS; do \
 		echo "golint $$codeDir" && \
@@ -155,10 +155,10 @@ non_docker_test: install-deps non_docker_lint
 	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
 
 quick_cover_test:
-	go tool vet -all config shared log
-	@DIRS="config/... shared/... log/..." && FAILED="false" && \
-	echo "gofmt -l *.go config shared log" && \
-	GOFMT=$$(gofmt -l *.go config shared log) && \
+	go tool vet -all config shared
+	@DIRS="config/... shared/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared" && \
+	GOFMT=$$(gofmt -l *.go config shared) && \
 	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
 	for codeDir in $$DIRS; do \
 		echo "golint $$codeDir" && \
