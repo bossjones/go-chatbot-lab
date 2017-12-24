@@ -1,74 +1,172 @@
 package config
 
 import (
-	"time"
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
+	"os"
+	"reflect"
+	"strconv"
+	"strings"
 
-	"github.com/spf13/viper"
+	log "github.com/behance/go-logging/log"
 )
 
-// Provider defines a set of read-only methods for accessing the application
-// configuration params as defined in one of the config files.
-type Provider interface {
-	ConfigFileUsed() string
-	Get(key string) interface{}
-	GetBool(key string) bool
-	GetDuration(key string) time.Duration
-	GetFloat64(key string) float64
-	GetInt(key string) int
-	GetInt64(key string) int64
-	GetSizeInBytes(key string) uint
-	GetString(key string) string
-	GetStringMap(key string) map[string]interface{}
-	GetStringMapString(key string) map[string]string
-	GetStringMapStringSlice(key string) map[string][]string
-	GetStringSlice(key string) []string
-	GetTime(key string) time.Time
-	InConfig(key string) bool
-	IsSet(key string) bool
+// Chatbot config
+type Config struct {
+	// ********************************************
+	ConfigFile string `json:"configFile"`
+	// "name": "chatbot",
+	Name string `json:"name"`
+	// "commands": ["how are you:fine","where are you:here"],
+	Commands []string `json:"commands"`
+	// "db-path": "./chatbot.db",
+	DBPath string `json:"db-path"`
+	// "adaptor-path": "/opt/adaptors/",
+	AdaptorPath string `json:"adaptor-path"`
+	// "brain-type": "in-memory",
+	BrainType string `json:"brain-type"`
+	// "alias": "bot",
+	Alias string `json:"alias"`
+	// "log-level": "info",
+	LogLevel string `json:"log-level"`
+	// "log-location": "stdout",
+	LogLocation string `json:"log-location"`
+	// "log-app-name": "chatbot",
+	LogAppName string `json:"log-app-name"`
+	// "host": "127.0.0.1",
+	Host string `json:"host"`
+	// "port": "2001",
+	Port string `json:"port"`
+	// "kvStoreUsername": "user",
+	KVUsername string `json:"kvStoreUsername"`
+	// "kvStorePassword": "pass",
+	KVPassword string `json:"kvStorePassword"`
+	// "kvStoreServerAddress": "localhost:4001",
+	KVServer string `json:"kvStoreServerAddress"`
+	// "kv-ttl": "10",
+	KVttl string `json:"kv-ttl"`
+	// "isContainer": false,
+	IsContainer bool `json:"isContainer"`
+	// "ssl-cert-location": "/etc/chatbot",
+	SSLCertLocation string `json:"ssl-cert-location"`
+	// ********************************************
 }
 
-var defaultConfig *viper.Viper
-
-// Config returns a defaultConfig object
-func Config() Provider {
-	return defaultConfig
+func NewConfig(file string) (Config, error) {
+	c := Config{}
+	if file != "" {
+		err := c.LoadFromConfigFile(file)
+		return c, err
+	} else {
+		c.LoadFromEnv()
+		return c, nil
+	}
 }
 
-// LoadConfigProvider returns a pointer to a viper.Viper object containing config data
-func LoadConfigProvider(appName string) Provider {
-	return readViperConfig(appName)
+func (c *Config) LoadFromEnv() {
+	setValueFromEnv(&c.Name, "CHATBOT_NAME")
+	setSliceValueFromEnv(&c.Commands, "CHATBOT_COMMANDS")
+	setValueFromEnv(&c.DBPath, "CHATBOT_DB_PATH")
+	setValueFromEnv(&c.AdaptorPath, "CHATBOT_ADAPTOR_PATH")
+	setValueFromEnv(&c.BrainType, "CHATBOT_BRAIN_TYPE")
+	setValueFromEnv(&c.Alias, "CHATBOT_ALIAS")
+	setValueFromEnv(&c.LogLevel, "CHATBOT_LOG_LEVEL")
+	setValueFromEnv(&c.LogLocation, "CHATBOT_LOG_LOCATION")
+	setValueFromEnv(&c.LogAppName, "CHATBOT_LOG_APP_NAME")
+	setValueFromEnv(&c.Host, "CHATBOT_HOST")
+	setValueFromEnv(&c.Port, "CHATBOT_PORT")
+	setValueFromEnv(&c.KVUsername, "CHATBOT_KV_STORE_USERNAME")
+	setValueFromEnv(&c.KVPassword, "CHATBOT_KV_STORE_PASSWORD")
+	setValueFromEnv(&c.KVServer, "CHATBOT_KV_STORE_SERVER_ADDRESS")
+	setValueFromEnv(&c.KVttl, "CHATBOT_KV_TTL")
+	setBoolValueFromEnv(&c.IsContainer, "CHATBOT_IS_CONTAINER")
+	setValueFromEnv(&c.SSLCertLocation, "CHATBOT_SSL_CERT_LOCATION")
 }
 
-func init() {
-	defaultConfig = readViperConfig("GO-CHATBOT-LAB")
+func (c *Config) LoadFromConfigFile(configFile string) error {
+
+	c.ConfigFile = configFile
+	jsonSrc, err := ioutil.ReadFile(c.ConfigFile)
+	if err != nil {
+		log.Warn("Error reading config.", "error", err)
+		return err
+	}
+	err = json.Unmarshal(jsonSrc, &c)
+	if err != nil {
+		log.Warn("Error parsing config.", "error", err)
+
+		return err
+	}
+	return nil
 }
 
-func readViperConfig(appName string) *viper.Viper {
-	v := viper.New()
-	v.SetEnvPrefix(appName)
-	v.AutomaticEnv()
+// String() is a custom method that returns the Config without DockerPassword
+func (c *Config) String() string {
+	var buffer bytes.Buffer
 
-	// global defaults
+	v := reflect.ValueOf(c).Elem()
+	for i := 0; i < v.NumField(); i++ {
+		key := v.Type().Field(i).Name
+		val := v.Field(i).String()
 
-	v.SetDefault("json_logs", false)
-	v.SetDefault("loglevel", "debug")
+		buffer.WriteString(key + ": ")
+		if strings.Contains(strings.ToLower(key), "password") {
+			buffer.WriteString("******" + "\n")
+		} else if strings.ToLower(key) == "commands" {
+			for _, i := range c.Commands {
+				buffer.WriteString(i + " ")
+			}
+			buffer.WriteString("\n")
+		} else {
+			buffer.WriteString(val + "\n")
+		}
+	}
+	return buffer.String()
+}
 
-	// global defaults
-	// v.SetDefault("json_logs", false)
-	// v.SetDefault("loglevel", "debug")
-	// v.SetDefault("mode", "debug") // debug, release, test
-	// v.SetDefault("listen_address", ":5000")
-	// v.SetDefault("secret", "887yff9898yfhuiew3489fy3hewfuig239f8ghew32yfh") - this is fake, duh
+//CommandListIsManuallySet returns true if a lidt f commands was passed in to config
+// this is used to tell Capcom not to check for dynamic command list from Flight Director.
+func (c *Config) CommandListIsManuallySet() bool {
+	tempConfig, _ := NewConfig(c.ConfigFile)
+	return (len(tempConfig.Commands) > 0)
+}
 
-	// // HTTP Server Config
-	// v.SetDefault("secure", false)
-	// v.SetDefault("read_timeout", "0m10s")
-	// v.SetDefault("write_timeout", "0m10s")
-	// v.SetDefault("max_header_bytes", 1048576)
+func setValueFromEnv(field *string, envVar string) {
+	env := os.Getenv(envVar)
+	if len(env) > 0 {
+		*field = env
+	}
+}
 
-	// // TLS Config
-	// v.SetDefault("cert_file", "ssl/server.crt")
-	// v.SetDefault("key_file", "ssl/server.key")
-
-	return v
+func setSliceValueFromEnv(field *[]string, envVar string) {
+	env := os.Getenv(envVar)
+	if len(env) > 0 {
+		apps := make([]string, 0)
+		err := json.Unmarshal([]byte(env), &apps)
+		if err != nil {
+			log.Error("Error parsing slice in config.", "variable", envVar, "value", env)
+		}
+		*field = apps
+	}
+}
+func setIntValueFromEnv(field *int, envVar string) {
+	env := os.Getenv(envVar)
+	if len(env) > 0 {
+		var err error
+		*field, err = strconv.Atoi(env)
+		if err != nil {
+			log.Error("Invalid environment variable", "var", envVar, "value", env)
+		}
+	}
+}
+func setBoolValueFromEnv(field *bool, envVar string) {
+	env := os.Getenv(envVar)
+	if len(env) > 0 {
+		var err error
+		*field, err = strconv.ParseBool(env)
+		if err != nil {
+			log.Error("Invalid environment variable", "var", envVar, "value", env)
+		}
+	}
 }

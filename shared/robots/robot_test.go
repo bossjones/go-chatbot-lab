@@ -10,6 +10,12 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+// INFO: You can mark an individual spec or container as Pending. This will prevent the spec (or specs within the container) from running. You do this by adding a P or an X in front of your Describe, Context, It, and Measure:
+
+// NOTE: P<Name> stands for Pending specs, eg. PDescribe("some behavior", func() { ... })
+// NOTE: X<Name> stands for skip specs, eg. XDescribe("some behavior", func() { ... })
+// NOTE: F<Name> stands for focused specs, eg. FDescribe("some behavior", func() { ... })
+
 // INFO: https://stackoverflow.com/questions/6478962/what-does-the-dot-or-period-in-a-go-import-statement-do
 
 // If an explicit period (.) appears instead of a name, all the package's exported identifiers will be declared in the current file's file block and can be accessed without a qualifier.
@@ -18,9 +24,10 @@ import (
 
 func TestData(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Data Suite")
+	RunSpecs(t, "Robot Suite")
 }
 
+// INFO: The var _ = ... trick allows us to evaluate the Describe at the top level without having to wrap it in a func init() {}
 var _ = Describe("Robot", func() {
 	Describe("Creating a Robot object using NewRobot", func() {
 

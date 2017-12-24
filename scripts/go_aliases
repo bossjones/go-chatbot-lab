@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+gochat-deps() {
+        go list -f '{{ join .Deps  "\n"}}' . | grep $1
+}

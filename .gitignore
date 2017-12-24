@@ -22,3 +22,7 @@ vendor
 coverage.xml
 coverage.html
 *.coverprofile
+
+
+lan_data*
+debug_unifi.log
