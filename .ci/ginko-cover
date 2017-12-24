@@ -66,11 +66,11 @@ ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace 
 echo "[info] To collect coverages from all packages, below code snippet has been used";
 gover;
 echo "[info] dump gover.coverprofile";
-\cat gover.coverprofile;
+/bin/cat gover.coverprofile;
 echo "[info] Remove fixture data from gover repo, mario etc";
 awk '/mario|sonic|link to the past/{n=6}; n {n--; next}; 1' < gover.coverprofile > gover2.coverprofile;
 mv -fv gover2.coverprofile gover.coverprofile;
 echo "[info] dump gover.coverprofile";
-\cat gover.coverprofile;
+/bin/cat gover.coverprofile;
 echo "[info] Finally run goveralls";
 # goveralls -coverprofile=gover.coverprofile -service=travis-ci;
