@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
+# set -x
 
 PROJECT=$(go list -f "{{.ImportPath}}");
+# COVERAGE_MODE='mode: atomic'
 COVERAGE_MODE='mode: set'
 PACKAGES_TO_SKIP="mario"
 

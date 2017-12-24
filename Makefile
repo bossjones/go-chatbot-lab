@@ -255,7 +255,7 @@ coveralls:
 
 #REQUIRED-CI
 ginkgo-cover:
-	bash -x .ci/test-cover ginkgo
+	.ci/test-cover ginkgo
 
 test-auto: ginkgo-cover
 	ginkgo watch -r -cover .
