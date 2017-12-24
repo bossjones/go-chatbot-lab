@@ -92,6 +92,8 @@
     ".vscode/launch.json": "explorerExcludedFiles",
     "coverage.xml": "explorerExcludedFiles",
     "coverage.html": "explorerExcludedFiles",
-    "*.coverprofile": "explorerExcludedFiles"
+    "*.coverprofile": "explorerExcludedFiles",
+    "lan_data*": "explorerExcludedFiles",
+    "debug_unifi.log": "explorerExcludedFiles"
   }
 }

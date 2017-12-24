@@ -1,0 +1,18 @@
+{
+    "name": "chatbot",
+    "db-path": "./chatbot.db",
+    "adaptor-path": "/opt/adaptors/",
+    "brain-type": "in-memory",
+    "alias": "bot",
+    "log-level": "info",
+    "log-location": "stdout",
+    "log-app-name": "chatbot",
+    "host": "127.0.0.1",
+    "port": "2001",
+    "kvStoreUsername": "user",
+    "kvStorePassword": "pass",
+    "kvStoreServerAddress": "localhost:4001",
+    "kv-ttl": "10",
+    "isContainer": false,
+    "ssl-cert-location": "/etc/chatbot"
+}

@@ -1,5 +1,7 @@
 .PHONY: build build-alpine clean test help default list ci push
 
+SHELL=/bin/bash
+
 username             := bossjones
 container_name       := go-chatbot-lab
 BIN_NAME             := go-chatbot-lab
@@ -41,6 +43,20 @@ ifeq ($(TAG),@branch)
 	override TAG = $(shell git symbolic-ref --short HEAD)
 	@echo $(value TAG)
 endif
+
+# verify that certain variables have been defined off the bat
+check_defined = \
+    $(foreach 1,$1,$(__check_defined))
+__check_defined = \
+    $(if $(value $1),, \
+      $(error Undefined $1$(if $(value 2), ($(strip $2)))))
+
+list_allowed_args := name inventory
+
+export PATH := ./bin:./venv/bin:$(PATH)
+
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
 default: help
 
@@ -117,10 +133,10 @@ clean:
 non_docker_compile:  install-deps bin/go-chatbot-lab
 
 non_docker_lint: install-deps
-	go tool vet -all config shared log
-	@DIRS="config/... shared/... log/..." && FAILED="false" && \
-	echo "gofmt -l *.go config shared log" && \
-	GOFMT=$$(gofmt -l *.go config shared log) && \
+	go tool vet -all config shared
+	@DIRS="config/... shared/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared" && \
+	GOFMT=$$(gofmt -l *.go config shared) && \
 	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
 	for codeDir in $$DIRS; do \
 		echo "golint $$codeDir" && \
@@ -130,9 +146,31 @@ non_docker_lint: install-deps
 	if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
 
 #REQUIRED-CI
+non_docker_ginko_cover:
+	.ci/ginko-cover
+
+#REQUIRED-CI
 # FIXME: Skip this for now cause of non_docker_compile (12/6/2017)
 # non_docker_test: install-deps non_docker_lint non_docker_compile
 non_docker_test: install-deps non_docker_lint
+	@echo "******* Checking if test code compiles... *************" && \
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -c % || exit 255'
+	@echo "******* Running tests... ******************************"
+	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -v --cover --timeout 60s % || exit 255'
+
+quick_cover_test:
+	go tool vet -all config shared
+	@DIRS="config/... shared/..." && FAILED="false" && \
+	echo "gofmt -l *.go config shared" && \
+	GOFMT=$$(gofmt -l *.go config shared) && \
+	if [ ! -z "$$GOFMT" ]; then echo -e "\nThe following files did not pass a 'go fmt' check:\n$$GOFMT\n" && FAILED="true"; fi; \
+	for codeDir in $$DIRS; do \
+		echo "golint $$codeDir" && \
+		LINT="$$(golint $$codeDir)" && \
+		if [ ! -z "$$LINT" ]; then echo "$$LINT" && FAILED="true"; fi; \
+	done && \
+	if [ "$$FAILED" = "true" ]; then exit 1; else echo "ok" ;fi
+
 	@echo "******* Checking if test code compiles... *************" && \
 	go list ./... | grep -v /vendor/ | xargs -n1 -t -I % sh -c 'go test -c % || exit 255'
 	@echo "******* Running tests... ******************************"
@@ -212,7 +250,15 @@ coverage:
 
 #REQUIRED-CI
 coveralls:
-	.ci/test-cover coveralls
+	$(MAKE) non_docker_ginko_cover
+# .ci/test-cover coveralls
+
+#REQUIRED-CI
+ginkgo-cover:
+	.ci/test-cover ginkgo
+
+test-auto: ginkgo-cover
+	ginkgo watch -r -cover .
 
 # SOURCE: https://www.gnu.org/software/make/manual/html_node/Multiple-Targets.html
 #REQUIRED-CI

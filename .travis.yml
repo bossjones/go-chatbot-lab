@@ -124,9 +124,7 @@ before_install:
 # 12. after_script
 
 install:
-  # - go get -v github.com/Masterminds/glide
   - make ci
 
 script:
-  # - goveralls -coverprofile=coverage.out -service travis-ci
   - make coveralls

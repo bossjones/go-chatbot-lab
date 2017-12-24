@@ -7,7 +7,7 @@ package robots
 // const Middleware = require('./middleware')
 
 import (
-	"github.com/bossjones/go-chatbot-lab/log"
+	"github.com/behance/go-logging/log"
 	"github.com/bossjones/go-chatbot-lab/shared/brains"
 )
 
@@ -65,10 +65,7 @@ type Robot struct {
 // NewRobot returns a reference to an instance of Robot
 func NewRobot(adapterpath *string, adapter *string, httpd *bool, name *string, alias *string) *Robot {
 
-	log.WithFields(log.Fields{
-		"EventName": "new_robot",
-		"Info":      "Creating new Robot Object",
-	}).Info("Creating new Robot Object")
+	log.Infof("Creating new Robot Object")
 
 	if *adapterpath == "" {
 		*adapterpath = DefaultAdapter
