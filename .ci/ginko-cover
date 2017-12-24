@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+# set -x
 
 PROJECT=$(go list -f "{{.ImportPath}}");
 # COVERAGE_MODE='mode: atomic'
@@ -64,7 +65,12 @@ echo "[info] Below snippet will collect coverage from different packages and gen
 ginkgo -r --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --progress -skipPackage=${PACKAGES_TO_SKIP};
 echo "[info] To collect coverages from all packages, below code snippet has been used";
 gover;
+echo "[info] dump gover.coverprofile";
+\cat gover.coverprofile;
 echo "[info] Remove fixture data from gover repo, mario etc";
-\cat gover.coverprofile | grep "${PROJECT}" | grep "${COVERAGE_MODE}" | grep -v "mario" | grep -v "sonic" | grep -v "link to the past" > gover2.coverprofile;
+awk '/mario|sonic|link to the past/{n=6}; n {n--; next}; 1' < gover.coverprofile > gover2.coverprofile
 mv -f gover2.coverprofile gover.coverprofile;
+echo "[info] dump gover.coverprofile";
+\cat gover.coverprofile;
 echo "[info] Finally run goveralls";
+# goveralls -coverprofile=gover.coverprofile -service=travis-ci;
