@@ -27,12 +27,13 @@ var _ = Describe("Version", func() {
 		})
 	})
 
-	// version := FullVersion()
+	Describe("Func DetailedVersionInfo", func() {
+		It("returns a properly formatted string", func() {
+			detailed_version_info := DetailedVersionInfo()
+			expected_detailed_version_info := "Go-Chatbot-Lab <Unknown>; buildDate=<Unknown>; sha=<Unknown>"
 
-	// expected := Version + VersionPrerelease + " (" + GitCommit + ")"
-
-	// if version != expected {
-	// 	t.Fatalf("invalid version returned: %s", version)
-	// }
+			Expect(detailed_version_info).To(Equal(expected_detailed_version_info))
+		})
+	})
 
 })

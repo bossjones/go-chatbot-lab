@@ -36,12 +36,12 @@ func FullVersion() string {
 	return Version + VersionPrerelease + " (" + GitCommit + ")"
 }
 
-// DetailedVersionInfo returns a string with a bunch of info about Flight
-// Director, meant for putting in a `Server` response header, a `User-Agent`
+// DetailedVersionInfo returns a string with a bunch of info about go-chatbot-lab,
+// meant for putting in a `Server` response header, a `User-Agent`
 // request header, etc.
 func DetailedVersionInfo() string {
 	return fmt.Sprintf(
-		"Flight Director %s; buildDate=%s; sha=%s",
+		"Go-Chatbot-Lab %s; buildDate=%s; sha=%s",
 		Version, BuildDate, GitCommit,
 	)
 }
