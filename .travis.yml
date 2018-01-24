@@ -22,7 +22,7 @@ env:
 
 matrix:
   include:
-    - go: 1.8.4
+    - go: 1.8.x
       env:
         DOCKER_COMPOSE_VERSION: 1.17.1
         DOCKER_VERSION: 17.05.0~ce-0~ubuntu-trusty
@@ -30,7 +30,7 @@ matrix:
       dist: trusty
       language: go
       group: edge
-    - go: 1.9.2
+    - go: 1.9.x
       env:
         DOCKER_COMPOSE_VERSION: 1.17.1
         DOCKER_VERSION: 17.05.0~ce-0~ubuntu-trusty
