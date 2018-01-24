@@ -36,4 +36,13 @@ var _ = Describe("Version", func() {
 		})
 	})
 
+	Describe("Func ConvertToNumeric", func() {
+		It("returns a properly formatted string", func() {
+			detailed_convert_to_numeric := ConvertToNumeric("1.2.1")
+			expected_detailed_convert_to_numeric := 1.002001e+06
+
+			Expect(detailed_convert_to_numeric).To(Equal(expected_detailed_convert_to_numeric))
+		})
+	})
+
 })
