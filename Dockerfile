@@ -10,7 +10,7 @@ LABEL REPO="https://github.com/bossjones/go-chatbot-lab"
 #     PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
 
 ENV GOPATH=/go \
-    GOBIN=/gop/bin \
+    GOBIN=/go/bin \
     PROJPATH=/go/src/github.com/bossjones/go-chatbot-lab
 
 # Because of https://github.com/docker/docker/issues/14914

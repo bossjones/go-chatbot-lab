@@ -59,3 +59,7 @@ gofmt -w gomock/mock_matcher/mock_matcher.go sample/mock_user/mock_user.go
 
 echo >&2 "OK"
 ```
+
+# A getting started guide for Go newcomers
+
+https://github.com/alco/gostart

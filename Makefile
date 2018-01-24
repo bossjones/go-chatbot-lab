@@ -63,13 +63,22 @@ default: help
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
-	go build -ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
+# re: ldflags - Link, typically invoked as “go tool link,” reads the Go archive or object for a package main, along with its dependencies, and combines them into an executable binary.
+# SOURCE: https://golang.org/cmd/link/
+	go build -ldflags "-X github.com/bossjones/go-chatbot-lab/shared/version.GitCommit=$$(git rev-parse HEAD) \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.Version=$$(git describe --tags --dirty) \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.VersionPrerelease=DEV \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.BuildDate=$$(date -u +'%FT%T%z')" \
+	-o bin/${BIN_NAME}
 
 #REQUIRED-CI
 bin/go-chatbot-lab: $(SOURCES)
 	@if [ "$$(uname)" == "Linux" ]; then \
 		CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -i -v \
-			-ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" \
+			-ldflags "-X github.com/bossjones/go-chatbot-lab/shared/version.GitCommit=$$(git rev-parse HEAD) \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.Version=$$(git describe --tags --dirty) \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.VersionPrerelease=DEV \
+			          -X github.com/bossjones/go-chatbot-lab/shared/version.BuildDate=$$(date -u +'%FT%T%z')" \
 			-o bin/go-chatbot-lab \
 			./ ;  \
 	else \
