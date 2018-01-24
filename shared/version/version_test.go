@@ -17,4 +17,22 @@ var _ = Describe("Version", func() {
 			// Expect(GoVersion).To(BeNumerically(">", "go1.9.2"))
 		})
 	})
+
+	Describe("Func FullVersion", func() {
+		It("returns a properly formatted string", func() {
+			full_version := FullVersion()
+			expected_full_version := "<Unknown> (<Unknown>)"
+
+			Expect(full_version).To(Equal(expected_full_version))
+		})
+	})
+
+	// version := FullVersion()
+
+	// expected := Version + VersionPrerelease + " (" + GitCommit + ")"
+
+	// if version != expected {
+	// 	t.Fatalf("invalid version returned: %s", version)
+	// }
+
 })
