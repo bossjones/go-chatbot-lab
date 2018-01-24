@@ -18,6 +18,7 @@ import (
 	// cli "github.com/behance/go-cli"
 	"github.com/behance/go-logging/formatters"
 	"github.com/behance/go-logging/log"
+	"github.com/bossjones/go-chatbot-lab/shared/version"
 )
 
 type ConfigValue string
@@ -56,10 +57,10 @@ func main() {
 
 	// If defined, show value
 	if *versionFlag {
-		fmt.Println("Git Commit:", GitCommit)
-		fmt.Println("Version:", Version)
-		if VersionPrerelease != "" {
-			fmt.Println("Version PreRelease:", VersionPrerelease)
+		fmt.Println("Git Commit:", version.GitCommit)
+		fmt.Println("Version:", version.Version)
+		if version.VersionPrerelease != "" {
+			fmt.Println("Version PreRelease:", version.VersionPrerelease)
 		}
 		// Return multiple named results simply by return
 		// versionFlag, flag, and fmt will be returned(?)
