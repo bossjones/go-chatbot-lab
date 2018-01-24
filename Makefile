@@ -63,6 +63,8 @@ default: help
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
+# re: ldflags - Link, typically invoked as “go tool link,” reads the Go archive or object for a package main, along with its dependencies, and combines them into an executable binary.
+# SOURCE: https://golang.org/cmd/link/
 	go build -ldflags "-X main.GitCommit=${GIT_SHA}${GIT_DIRTY} -X main.VersionPrerelease=DEV" -o bin/${BIN_NAME}
 
 #REQUIRED-CI

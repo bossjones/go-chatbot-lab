@@ -154,16 +154,18 @@ func setSliceValueFromEnv(field *[]string, envVar string) {
 		*field = apps
 	}
 }
-func setIntValueFromEnv(field *int, envVar string) {
-	env := os.Getenv(envVar)
-	if len(env) > 0 {
-		var err error
-		*field, err = strconv.Atoi(env)
-		if err != nil {
-			log.Error("Invalid environment variable", "var", envVar, "value", env)
-		}
-	}
-}
+
+// func setIntValueFromEnv(field *int, envVar string) {
+// 	env := os.Getenv(envVar)
+// 	if len(env) > 0 {
+// 		var err error
+// 		*field, err = strconv.Atoi(env)
+// 		if err != nil {
+// 			log.Error("Invalid environment variable", "var", envVar, "value", env)
+// 		}
+// 	}
+// }
+
 func setBoolValueFromEnv(field *bool, envVar string) {
 	env := os.Getenv(envVar)
 	if len(env) > 0 {
