@@ -5,9 +5,12 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/behance/go-common/log"
+	// "github.com/behance/go-common/log"
+	logUtils "github.com/bossjones/go-chatbot-lab/shared/log-utils"
 	"github.com/twinj/uuid"
 )
+
+var chatLog = logUtils.NewLogger()
 
 // import "encoding/json"
 
@@ -89,6 +92,9 @@ func CreateUUID() string {
 
 // ExecuteShellScript execs a specified script file and returns the output in a string
 func ExecuteShellScript(scriptFile string) (string, error) {
+	// FIXME: Add validation for this so we don't need nosec rule to pass (https://github.com/GoASTScanner/gas)
+	// G204: Audit use of command execution
+	// #nosec
 	cmd := exec.Command("bash", "-c", scriptFile)
 
 	var out bytes.Buffer
@@ -97,11 +103,11 @@ func ExecuteShellScript(scriptFile string) (string, error) {
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
-		log.Error("Script execution error", "action", "execute shell script", "command", cmd, "error", err, "error_details", stderr.String())
+		chatLog.Error("Script execution error", "action", "execute shell script", "command", cmd, "error", err, "error_details", stderr.String())
 		return stderr.String(), err
 
 	}
-	log.Info("Executed: "+scriptFile, "action", "execute shell script", "details", out.String())
+	chatLog.Info("Executed: "+scriptFile, "action", "execute shell script", "details", out.String())
 
 	return out.String(), nil
 }

@@ -1,5 +1,5 @@
-hash: 8c9b229054a7dd2996b10ba48058407cde5d3a792094abc989b62f2c35768001
-updated: 2017-12-24T11:18:49.563481609-08:00
+hash: 8656f58647d5fd3cc05127fc6fd319e29fae7dec3a158f1febd81aec7f6427af
+updated: 2018-01-24T19:34:45.534608058-05:00
 imports:
 - name: github.com/behance/go-cli
   version: 50c77ecec0068c9aef9d90ae0fd0fdf410041da3
@@ -18,12 +18,30 @@ imports:
   version: eb84da520d0bfecda7a9288107ec991b4ebcedb4
 - name: github.com/codegangsta/negroni
   version: cc68f18cd7e1157c71811df1396496a9db0e997d
+- name: github.com/go-stack/stack
+  version: 7a2f19628aabfe68f0766b59e74d6315f8347d22
+- name: github.com/huandu/xstrings
+  version: 6c57c48c208279ab86160c78181871961c973c18
+- name: github.com/inconshreveable/log15
+  version: 39bacc234bf1afd0b68573e95b45871f67ba2cd4
+  subpackages:
+  - term
+- name: github.com/mattn/go-colorable
+  version: ded68f7a9561c023e790de24279db7ebf473ea80
+- name: github.com/mattn/go-isatty
+  version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+- name: github.com/pkg/errors
+  version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/Sirupsen/logrus
   version: 95cd2b9c79aa5e72ab0bc69b7ccc2be15bf850f6
 - name: github.com/spf13/viper
   version: 4dddf7c62e16bce5807744018f5b753bfe21bbd2
 - name: github.com/twinj/uuid
   version: 7bbe408d339787c56ec15568c947c0959db1b275
+- name: golang.org/x/sys
+  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
+  subpackages:
+  - unix
 testImports:
 - name: github.com/AlekSi/gocov-xml
   version: d2f6da892a0d5e0b587526abf51349ad654ade51
@@ -40,7 +58,7 @@ testImports:
 - name: github.com/modocache/gover
   version: b58185e213c533169f76aa366e6c68fe56f2881b
 - name: github.com/onsi/ginkgo
-  version: 77a8c1e5c40d6bb6c5eb4dd4bdce9763564f6298
+  version: 38caab951a9ff39f0e61294a1dbaaa074a39228b
   subpackages:
   - config
   - internal/codelocation
@@ -49,23 +67,19 @@ testImports:
   - internal/leafnodes
   - internal/remote
   - internal/spec
-  - internal/spec_iterator
   - internal/specrunner
   - internal/suite
   - internal/testingtproxy
   - internal/writer
   - reporters
   - reporters/stenographer
-  - reporters/stenographer/support/go-colorable
-  - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: 334b8f472b3af5d541c5642701c1e29e2126f486
+  version: 8adf9e1730c55cdc590de7d49766cb2acc88d8f2
   subpackages:
   - format
   - internal/assertion
   - internal/asyncassertion
-  - internal/oraclematcher
   - internal/testingtsupport
   - matchers
   - matchers/support/goraph/bipartitegraph
@@ -73,9 +87,3 @@ testImports:
   - matchers/support/goraph/node
   - matchers/support/goraph/util
   - types
-- name: golang.org/x/sys
-  version: 8b4580aae2a0dd0c231a45d3ccb8434ff533b840
-  subpackages:
-  - unix
-- name: gopkg.in/yaml.v2
-  version: 287cf08546ab5e7e37d55a84f7ed3fd1db036de5

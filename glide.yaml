@@ -6,6 +6,10 @@ import:
 - package: github.com/behance/go-cli
   version: 50c77ecec0068c9aef9d90ae0fd0fdf410041da3
 - package: github.com/behance/go-common
+  subpackages:
+  - kvwrapper
+  - kvwrapper_etcd
+  - log
   version: df5dbebd2fe89e1e2a13e128e74b4fd8e272a733
   subpackages:
   - kvwrapper
@@ -18,6 +22,10 @@ import:
   - log
 - package: github.com/behance/go-logrus
   version: eb84da520d0bfecda7a9288107ec991b4ebcedb4
+- package: github.com/huandu/xstrings
+- package: github.com/inconshreveable/log15
+- package: github.com/pkg/errors
+  version: ^0.8.0
 testImport:
 - package: github.com/onsi/ginkgo
 - package: github.com/onsi/gomega

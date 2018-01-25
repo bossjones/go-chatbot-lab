@@ -23,6 +23,21 @@ import (
 
 type ConfigValue string
 
+var (
+	argConfigFile   string
+	argFixtureFile  string
+	flagShowVersion bool
+	// dbReady         chan db.Wrapper = make(chan db.Wrapper, 1)
+	gLogger logUtils.Logger
+)
+
+func parseFlags() {
+	flag.StringVar(&argConfigFile, "config-file", "", "configuration file")
+	flag.BoolVar(&flagShowVersion, "version", false, "show version")
+	flag.StringVar(&argFixtureFile, "fixtures", "", "JSON file with fixtures (see shared/helpers/fixtures for format)")
+	flag.Parse()
+}
+
 func setupLogging(logLevel string, isDebug bool, logLocation string, logAppName string) {
 	os.Setenv("LOG_APP_NAME", logAppName)
 	log.AlwaysShowColors(true)

@@ -6,7 +6,8 @@ username             := bossjones
 container_name       := go-chatbot-lab
 BIN_NAME             := go-chatbot-lab
 SOURCES              := $(shell find . \( -name vendor \) -prune -o  -name '*.go')
-VERSION              := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
+# VERSION              := $(shell grep "const Version " version.go | sed -E 's/.*"(.+)"$$/\1/')
+VERSION              := $(shell git describe --tags --dirty)
 GIT_SHA              := $(shell git rev-parse HEAD)
 GIT_DIRTY            := $(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 GIT_BRANCH           := $(shell git rev-parse --abbrev-ref HEAD)
@@ -92,6 +93,8 @@ get-deps:
 
 update:
 	glide update
+
+glide-install-update: get-deps update
 
 install-tools:
 	@which golint || go get -u github.com/golang/lint/golint
