@@ -71,8 +71,8 @@ var _ = Describe("Config", func() {
 			Expect(c.Host).To(Equal("a-server-name"))
 			Expect(c.IsContainer).To(Equal(false))
 			Expect(len(c.Commands)).To(Equal(2))
+			Expect(c.Commands[0]).To(Equal("app1:img1"))
 			Expect(c.Commands[1]).To(Equal("app1:img2"))
-			Expect(c.Commands).To(Equal(`["app1:img1","app1:img2"]`))
 		})
 
 		AfterEach(func() {
