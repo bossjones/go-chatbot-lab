@@ -81,4 +81,18 @@ var _ = Describe("Config", func() {
 			unsetenv("CHATBOT_IS_CONTAINER")
 		})
 	})
+
+	Describe("String", func() {
+		It("Returns the Config without DockerPassword", func() {
+			config := Config{
+				Name:      "scarlett",
+				BrainType: "redis",
+			}
+
+			safeConfig := config.String()
+
+			Expect(safeConfig).To(ContainSubstring(`"BrainType": "redis"`))
+			Expect(safeConfig).To(ContainSubstring(`"Name": "scarlett"`))
+		})
+	})
 })
