@@ -91,8 +91,8 @@ var _ = Describe("Config", func() {
 
 			safeConfig := config.String()
 
-			Expect(safeConfig).To(ContainSubstring(`"BrainType": "redis"`))
-			Expect(safeConfig).To(ContainSubstring(`"Name": "scarlett"`))
+			Expect(safeConfig).To(ContainSubstring(`BrainType: redis`))
+			Expect(safeConfig).To(ContainSubstring(`Name: scarlett`))
 		})
 	})
 })
