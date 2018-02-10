@@ -2,7 +2,10 @@
   "todohighlight.isEnable": true,
   "todohighlight.isCaseSensitive": true,
   "editor.formatOnSave": false,
-  "go.formatOnSave": false,
+  "[go]": {
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": false
+  },
   "todohighlight.keywords": [
     {
       "text": "TODO:",
