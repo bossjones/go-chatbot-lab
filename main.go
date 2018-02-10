@@ -32,6 +32,7 @@ var (
 	argConfigFile   string
 	argFixtureFile  string
 	flagShowVersion bool
+	flagDemoMode    bool
 	// dbReady         chan db.Wrapper = make(chan db.Wrapper, 1)
 	gLogger logUtils.Logger
 )
@@ -39,6 +40,7 @@ var (
 func parseFlags() {
 	flag.StringVar(&argConfigFile, "config-file", "", "configuration file")
 	flag.BoolVar(&flagShowVersion, "version", false, "show version")
+	flag.BoolVar(&flagDemoMode, "demo", false, "put in demo mode")
 	flag.StringVar(&argFixtureFile, "fixtures", "", "JSON file with fixtures (see shared/helpers/fixtures for format)")
 	flag.Parse()
 }
@@ -203,7 +205,6 @@ func main() {
 	// fmt.Println("Hello.")
 	// ****************** OLD MAIN *******************************
 }
-
 
 // FIXME: Move this into the regular main block so we can start chatting with the bot! (2/10/2018)
 // SOURCE: https://github.com/coolspeed/century/blob/master/century.go
