@@ -23,7 +23,7 @@ type Session struct {
 	killRoomConnGoroutine     chan bool
 	killSocketReaderGoroutine chan bool
 	killSocketWriterGoroutine chan bool
-	sessionMutex              sync.Mutex
+	sessionMutex              *sync.Mutex
 }
 
 // NewSession -
@@ -42,7 +42,7 @@ func NewSession(sid int, chatRoom *ChatRoom, connection net.Conn) *Session {
 		killRoomConnGoroutine:     make(chan bool),
 		killSocketReaderGoroutine: make(chan bool),
 		killSocketWriterGoroutine: make(chan bool),
-		//		sessionMutex:
+		sessionMutex:              &sync.Mutex{},
 	}
 	fmt.Println("A new session created. sid=", sid)
 	return session
@@ -98,6 +98,7 @@ func (session *Session) Listen() {
 func (session *Session) LeaveAndDelete() {
 	// leave
 
+	// https://github.com/golang/go/issues/13675
 	chatRoom := *session.chatRoom
 	sid := session.sid
 	chatRoom.roomMutex.Lock()
