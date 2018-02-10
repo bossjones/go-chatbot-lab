@@ -4,7 +4,7 @@
   "editor.formatOnSave": false,
   "[go]": {
     "editor.insertSpaces": false,
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   "todohighlight.keywords": [
     {

@@ -203,3 +203,35 @@ func main() {
 	// fmt.Println("Hello.")
 	// ****************** OLD MAIN *******************************
 }
+
+
+// FIXME: Move this into the regular main block so we can start chatting with the bot! (2/10/2018)
+// SOURCE: https://github.com/coolspeed/century/blob/master/century.go
+// func main() {
+// 	fmt.Println("Server started.")
+
+// 	port := "6666"
+// 	listener, err_listen := net.Listen("tcp", ":" + port)
+// 	if err_listen != nil {
+// 		fmt.Println("Server listening failed. Exit.")
+// 		os.Exit(1)
+// 	}
+// 	fmt.Println("Server started to listen on port " + port)
+
+// 	chatRoom := NewChatRoom()
+// 	// listen
+// 	chatRoom.Listen()
+// 	fmt.Println("chatRoom started to listen.")
+
+// 	for {
+// 		conn, err_ac := listener.Accept()
+// 		if err_ac != nil {
+// 			fmt.Println("Connection accepting failed.")
+// 			conn.Close()
+// 			time.Sleep(100 * time.Millisecond)
+// 			continue
+// 		}
+// 		fmt.Println("A new connection accepted.")
+// 		chatRoom.entrance <- conn  // ChatRoom.entrance: channel of connection
+// 	}
+// }
